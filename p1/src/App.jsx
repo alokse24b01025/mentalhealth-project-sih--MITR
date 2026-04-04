@@ -29,7 +29,8 @@ import './index.css';
 function App() {
   return (
     <AuthProvider>
-      <Router>
+      <Router basename="/mentalhealth-project-sih-/">
+
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<HomePage />} />

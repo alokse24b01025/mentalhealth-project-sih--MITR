@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
-import logo from '../assets/logo.png';
 import { useAuth } from '../AuthContext';
 
 const Header = () => {
@@ -68,7 +67,7 @@ const Header = () => {
       <div className="max-w-7xl mx-auto px-6 sm:px-8">
         <div className="flex justify-between items-center h-12">
           
-          {/* LEFT: Menu & Logo */}
+          {/* LEFT: Menu & Branding */}
           <div className="flex items-center gap-x-8">
             <div className="relative" ref={menuRef}>
               <button 
@@ -100,9 +99,10 @@ const Header = () => {
               </div>
             </div>
 
-            <Link to="/" className="flex items-center gap-x-3 group">
-              <img src={logo} alt="Mitr" className="h-8 w-auto grayscale invert brightness-200 group-hover:scale-110 transition-transform duration-500" />
-              <span className="text-xl font-light text-white tracking-tighter uppercase">Mitr<span className="font-serif italic text-emerald-500 ml-1">Sanctuary</span></span>
+            <Link to="/" className="flex items-center group">
+              <span className="text-xl font-light text-white tracking-tighter uppercase transition-colors group-hover:text-emerald-400">
+                Mitr<span className="font-serif italic text-emerald-500 ml-1">Sanctuary</span>
+              </span>
             </Link>
           </div>
           
@@ -116,8 +116,6 @@ const Header = () => {
 
           {/* RIGHT: Admin Entrance & Auth */}
           <div className="flex items-center gap-x-6">
-            
-            {/* ADMIN ENTRANCE WITH NEURAL PULSE */}
             {!currentUser && (
               <Link 
                 to="/admin-gate" 

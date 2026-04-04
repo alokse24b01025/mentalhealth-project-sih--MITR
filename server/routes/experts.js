@@ -4,7 +4,7 @@ const Expert = require('../models/Expert');
 
 router.post('/upload', async (req, res) => {
   try {
-    console.log("Received Expert Data:", req.body); // Check your terminal for this!
+    console.log("Received Expert Data:", req.body); 
     const newExpert = new Expert(req.body);
     await newExpert.save();
     res.status(201).json({ message: "Expert added successfully!" });

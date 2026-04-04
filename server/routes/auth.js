@@ -1,65 +1,74 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs'); 
 
-// --- REGISTER ROUTE ---
-router.post('/register', async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    console.log(`Registration attempt for: ${email}`);
-
-    // 1. Check if user already exists
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      console.log("Registration failed: Email already exists");
-      return res.status(400).json({ message: 'User already exists' });
-    }
-
-    // 2. Create and save new user
-    const newUser = new User({ email, password });
-    await newUser.save();
-
-    console.log("Registration successful!");
-    // Return user data so frontend can auto-login
-    res.status(201).json({ 
-      message: 'User created successfully', 
-      user: { email: newUser.email, id: newUser._id } 
-    });
-
-  } catch (err) {
-    console.error("Server Register Error:", err.message);
-    res.status(500).json({ message: 'Server registration error' });
-  }
-});
+// Access the secret from .env or use a fallback for development
+const JWT_SECRET = process.env.JWT_SECRET || "fallback_secret_for_dev_only";
 
 // --- LOGIN ROUTE ---
 router.post('/login', async (req, res) => {
-  try {
     const { email, password } = req.body;
-    console.log(`Login attempt for: ${email}`);
+    try {
+        const user = await User.findOne({ email });
+        if (!user) return res.status(400).json({ message: "User not found" });
 
-    const user = await User.findOne({ email });
-    if (!user) {
-      console.log("User not found in DB");
-      return res.status(401).json({ message: 'Invalid email or password' });
+        const isMatch = await bcrypt.compare(password, user.password);
+        console.log(`Login check for ${email}: ${isMatch ? "MATCHED" : "FAILED"}`);
+
+        if (!isMatch) {
+            return res.status(400).json({ message: "Invalid Credentials" });
+        }
+
+        const payload = { user: { id: user.id } };
+
+        // Sign the token using the secret
+        const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '24h' });
+
+        res.json({
+            token,
+            user: {
+                id: user._id,
+                email: user.email,
+                role: user.role || 'student'
+            }
+        });
+
+    } catch (err) {
+        console.error("Login Error:", err.message);
+        res.status(500).json({ message: "Server Error during token generation" });
     }
+});
 
-    // Plain text comparison to match your current DB setup
-    if (user.password !== password) {
-      console.log("Password mismatch");
-      return res.status(401).json({ message: 'Invalid email or password' });
+// --- REGISTER ROUTE ---
+router.post('/register', async (req, res) => {
+    const { email, password } = req.body;
+    try {
+        let user = await User.findOne({ email });
+        if (user) return res.status(400).json({ message: "User already exists" });
+
+        user = new User({ email, password, role: 'student' });
+
+        const salt = await bcrypt.genSalt(10);
+        user.password = await bcrypt.hash(password, salt);
+
+        await user.save();
+        console.log(`✅ New user registered: ${email}`);
+
+        const payload = { user: { id: user.id } };
+        
+        // Sign the token using the secret
+        const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '24h' });
+
+        res.json({
+            token,
+            user: { id: user._id, email: user.email, role: user.role }
+        });
+    } catch (err) {
+        console.error("Register Error:", err.message);
+        res.status(500).json({ message: "Server Error during token generation" });
     }
-
-    console.log("Login successful!");
-    res.status(200).json({ 
-      message: 'Login success', 
-      user: { email: user.email, id: user._id } 
-    });
-
-  } catch (err) {
-    console.error("Server Login Error:", err.message);
-    res.status(500).json({ message: 'Server login error' });
-  }
 });
 
 module.exports = router;

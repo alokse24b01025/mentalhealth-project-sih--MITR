@@ -9,6 +9,8 @@ const Chatbot = ({ selectedLanguage }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [showCrisisAlert, setShowCrisisAlert] = useState(false);
   const messagesEndRef = useRef(null);
+  
+  // Destructure currentUser from your Auth Context
   const { currentUser } = useAuth(); 
 
   const scrollToBottom = () => {
@@ -20,10 +22,19 @@ const Chatbot = ({ selectedLanguage }) => {
   const handleSend = async () => {
     if (input.trim() === '' || isLoading) return;
 
-    const currentUserId = currentUser?._id || currentUser?.uid || null;
+    // 1. IMPROVED ID CHECK: Try every possible ID key format
+    const currentUserId = currentUser?._id || currentUser?.uid || currentUser?.id || null;
+    
+    if (!currentUserId) {
+      setMessages(prev => [...prev, { text: "Session Expired: Please log in to chat securely.", sender: 'bot' }]);
+      return;
+    }
+
     const userMessage = { text: input, sender: 'user' };
     setMessages(prev => [...prev, userMessage]);
-    const currentInput = input;
+    
+    // Store current input and clear the field immediately for better UX
+    const messageToSend = input;
     setInput('');
     setIsLoading(true);
 
@@ -36,13 +47,17 @@ const Chatbot = ({ selectedLanguage }) => {
           'x-auth-token': token || ''
         },
         body: JSON.stringify({ 
-          message: currentInput,
+          message: messageToSend, // 2. ALIGNED KEY: Matches 'message' in your backend
           language: selectedLanguage,
           userId: currentUserId,
         }),
       });
 
-      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      // 3. DETAILED ERROR HANDLING: Helps identify 500 errors
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || `Server Error: ${response.status}`);
+      }
 
       const data = await response.json();
       
@@ -53,9 +68,9 @@ const Chatbot = ({ selectedLanguage }) => {
       const botMessage = { text: data.reply, sender: 'bot' };
       setMessages(prev => [...prev, botMessage]);
     } catch (error) {
-      console.error("Failed to fetch from AI:", error);
+      console.error("AI Sync Failure:", error);
       setMessages(prev => [...prev, { 
-        text: "I'm having trouble connecting. Please ensure you are logged in.", 
+        text: "I'm having trouble connecting to the neural hub. Please check your connection or log in again.", 
         sender: 'bot' 
       }]);
     } finally {
@@ -64,8 +79,7 @@ const Chatbot = ({ selectedLanguage }) => {
   };
 
   return (
-    /* The outer container must have a defined height for internal scrolling to work */
-    <div className="flex flex-col h-full bg-slate-900/80 backdrop-blur-xl border border-slate-800 shadow-2xl rounded-3xl p-4 relative overflow-hidden">
+    <div className="flex flex-col h-full bg-slate-900/80 backdrop-blur-xl border border-slate-800 shadow-2xl rounded-3xl p-4 relative overflow-hidden font-sans">
       
       {/* Crisis Alert Overlay */}
       {showCrisisAlert && (
@@ -76,7 +90,7 @@ const Chatbot = ({ selectedLanguage }) => {
             </svg>
           </div>
           <h2 className="text-3xl font-black tracking-tighter uppercase">You Are Not Alone</h2>
-          <p className="mt-4 text-slate-200 max-w-sm">Our AI has detected distress. Please speak with a counselor immediately.</p>
+          <p className="mt-4 text-slate-200 max-w-sm">Our system detected distress. Please connect with a professional immediately.</p>
           <button onClick={() => window.location.href = '/booking'} className="mt-8 bg-white text-red-900 font-black py-4 px-10 rounded-2xl text-lg hover:bg-red-100 transition-all shadow-xl">
             Connect to Counselor Now
           </button>
@@ -86,20 +100,16 @@ const Chatbot = ({ selectedLanguage }) => {
         </div>
       )}
 
-      {/* SCROLLABLE AREA: 
-          - flex-1: Takes up all available space between header and footer
-          - overflow-y-auto: Enables vertical scrolling when content exceeds height
-          - min-h-0: Essential for nested flex scrolling to work properly
-      */}
+      {/* Scrollable Message List */}
       <div className="flex-1 overflow-y-auto mb-4 p-2 space-y-6 custom-scrollbar min-h-0">
         {messages.map((msg, index) => (
           <div key={index} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
             <div className={`max-w-[80%] p-4 rounded-2xl shadow-sm text-sm leading-relaxed ${
               msg.sender === 'user' 
-                ? 'bg-emerald-600 text-white rounded-br-none border border-emerald-500' 
+                ? 'bg-emerald-600 text-white rounded-br-none border border-emerald-500 shadow-emerald-900/20' 
                 : 'bg-slate-800 text-slate-200 rounded-bl-none border border-slate-700'
             }`}>
-              <p className="break-words">{msg.text}</p>
+              <p className="break-words font-medium">{msg.text}</p>
             </div>
           </div>
         ))}
@@ -116,7 +126,7 @@ const Chatbot = ({ selectedLanguage }) => {
         <div ref={messagesEndRef} />
       </div>
 
-      {/* FIXED INPUT AREA: Stays at bottom */}
+      {/* Fixed Input Bar */}
       <div className="flex items-center gap-3 bg-slate-950/50 p-2 rounded-2xl border border-slate-800 shrink-0">
         <input 
           type="text" 
@@ -133,7 +143,7 @@ const Chatbot = ({ selectedLanguage }) => {
           className={`p-3 rounded-xl transition-all shadow-lg ${
             isLoading || showCrisisAlert || !input.trim()
               ? 'bg-slate-800 text-slate-600 cursor-not-allowed' 
-              : 'bg-emerald-600 text-white hover:bg-emerald-500 active:scale-90 shadow-emerald-900/20'
+              : 'bg-emerald-600 text-white hover:bg-emerald-500 active:scale-95 shadow-emerald-900/20'
           }`}
         >
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 rotate-90" viewBox="0 0 20 20" fill="currentColor">
