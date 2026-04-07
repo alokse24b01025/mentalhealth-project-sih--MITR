@@ -2,14 +2,14 @@ const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
 const fs = require('fs');
-const cors = require('cors'); // ✅ FIX: declare here ONCE
+const cors = require('cors'); 
 require('dotenv').config();
 
 // 1. INITIALIZE THE APP
 const app = express(); 
 
 // 2. MIDDLEWARE
-app.use(cors()); // ✅ use after declaring
+app.use(cors()); 
 app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); 
 
@@ -33,8 +33,8 @@ app.use('/api/resiliency', resiliencyRoutes);
 
 // 5. CONNECT TO MONGODB
 mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log("✅ MongoDB Connected Successfully"))
-  .catch(err => console.log("❌ MongoDB Connection Error:", err));
+  .then(() => console.log(" MongoDB Connected Successfully"))
+  .catch(err => console.log(" MongoDB Connection Error:", err));
 
 // 6. FOLDER & SERVER START
 const uploadDir = path.join(__dirname, 'uploads');
