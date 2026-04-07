@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 
@@ -12,16 +12,16 @@ import AdminDashboard from './pages/AdminDashboard';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 
-// NEW: Privacy, Care Alerts, and Help Center imports
+// Privacy, Care Alerts, Help Center
 import PrivacyPage from './pages/PrivacyPage';
 import CareAlertsPage from './pages/CareAlertsPage';
 import HelpCenterPage from './pages/HelpCenterPage';
 
-// NEW: Admin Security Gates & Upload [CRITICAL FIX]
+// Admin Security & Upload
 import AdminGate from './pages/AdminGate';
-import AdminUpload from './pages/AdminUpload'; // Added this import
+import AdminUpload from './pages/AdminUpload';
 
-// Component imports
+// Components
 import PeerSupport from "./components/PeerSupport"; 
 
 import './index.css';
@@ -29,24 +29,19 @@ import './index.css';
 function App() {
   return (
     <AuthProvider>
-      <Router basename="/mentalhealth-project-sih-/">
-
+      <Router>
         <Routes>
+
           {/* Public Routes */}
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/resources" element={<ResourcesPage />} />
 
-          {/* --- ADMIN SECURITY ROUTES --- */}
-          {/* Gate for ID and Secret Key Entry */}
+          {/* Admin Routes */}
           <Route path="/admin-gate" element={<AdminGate />} />
-          
-          {/* Main Command Center */}
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
-
-          {/* NEW: Resource Deployer Route [CRITICAL FIX] */}
-          <Route path="/admin-upload" element={<AdminUpload />} /> 
+          <Route path="/admin-upload" element={<AdminUpload />} />
 
           {/* Protected Student Routes */}
           <Route path="/chat" element={
@@ -54,20 +49,20 @@ function App() {
               <ChatPage />
             </ProtectedRoute>
           } />
-          
+
           <Route path="/booking" element={
             <ProtectedRoute>
               <BookingPage />
             </ProtectedRoute>
           } />
-          
+
           <Route path="/peer-support" element={
             <ProtectedRoute>
               <PeerSupport />
             </ProtectedRoute>
           } />
 
-          {/* Settings & Help Navigation */}
+          {/* Settings & Help */}
           <Route path="/settings/privacy" element={
             <ProtectedRoute>
               <PrivacyPage />
@@ -85,13 +80,14 @@ function App() {
               <HelpCenterPage />
             </ProtectedRoute>
           } />
-          
-          {/* Fallback route */}
+
+          {/* Fallback */}
           <Route path="/admin" element={
             <ProtectedRoute>
               <AdminDashboard />
             </ProtectedRoute>
           } />
+
         </Routes>
       </Router>
     </AuthProvider>
