@@ -43,7 +43,7 @@ const SignupPage = () => {
         
         {/* Close Button */}
         <Link to="/" className="absolute top-4 right-4 text-gray-600 hover:text-green-800 transition-colors">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <svg xmlns="https://www.w3.org/2000/svg" className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
           </svg>
         </Link>

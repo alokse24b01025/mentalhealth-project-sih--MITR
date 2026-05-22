@@ -10,7 +10,7 @@ const PostItem = ({ post, onUpdate }) => {
 
   const handleUpvote = async () => {
     try {
-      const res = await fetch(`http://https://mentalhealth-project-sih-mitr.onrender.com/api/posts/${post._id}/upvote`, { method: 'PUT' });
+      const res = await fetch(`https://https://mentalhealth-project-sih-mitr.onrender.com/api/posts/${post._id}/upvote`, { method: 'PUT' });
       if (res.ok) onUpdate();
     } catch (err) { console.error("Upvote failed", err); }
   };
@@ -19,7 +19,7 @@ const PostItem = ({ post, onUpdate }) => {
     e.preventDefault();
     if (!commentText.trim()) return;
     try {
-      const res = await fetch(`http://https://mentalhealth-project-sih-mitr.onrender.com/api/posts/${post._id}/comment`, {
+      const res = await fetch(`https://https://mentalhealth-project-sih-mitr.onrender.com/api/posts/${post._id}/comment`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text: commentText })
@@ -53,13 +53,13 @@ const PostItem = ({ post, onUpdate }) => {
           <div className="mb-4 rounded-xl overflow-hidden border border-slate-800 bg-black shadow-inner">
             {post.image.match(/\.(mp4|webm|ogg|mov)$/i) ? (
               <video 
-                src={`http://https://mentalhealth-project-sih-mitr.onrender.com${post.image}`} 
+                src={`https://https://mentalhealth-project-sih-mitr.onrender.com${post.image}`} 
                 controls 
                 className="w-full max-h-[500px]" 
               />
             ) : (
               <img 
-                src={`http://https://mentalhealth-project-sih-mitr.onrender.com${post.image}`} 
+                src={`https://https://mentalhealth-project-sih-mitr.onrender.com${post.image}`} 
                 alt="Post content" 
                 className="w-full max-h-[500px] object-contain"
                 onError={(e) => { e.target.style.display = 'none'; }}
@@ -115,7 +115,7 @@ const PeerSupport = () => {
 
   const fetchPosts = async () => {
     try {
-      const res = await fetch('http://https://mentalhealth-project-sih-mitr.onrender.com/api/posts');
+      const res = await fetch('https://https://mentalhealth-project-sih-mitr.onrender.com/api/posts');
       const data = await res.json();
       setPosts(Array.isArray(data) ? data : []);
     } catch (err) { 
@@ -160,7 +160,7 @@ const PeerSupport = () => {
     if (file) formData.append('media', file); // Field name must match backend Multer setup
 
     try {
-      const res = await fetch('http://https://mentalhealth-project-sih-mitr.onrender.com/api/posts/create', {
+      const res = await fetch('https://https://mentalhealth-project-sih-mitr.onrender.com/api/posts/create', {
         method: 'POST',
         body: formData, // Browser handles multipart headers
       });
@@ -210,7 +210,7 @@ const PeerSupport = () => {
                   }}
                   className="absolute -top-2 -right-2 bg-red-600 p-1.5 rounded-full z-10 shadow-lg hover:bg-red-500 transition-colors"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg xmlns="https://www.w3.org/2000/svg" className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </button>

@@ -40,7 +40,7 @@ const Chatbot = ({ selectedLanguage }) => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://https://mentalhealth-project-sih-mitr.onrender.com/api/chat', {
+      const response = await fetch('https://https://mentalhealth-project-sih-mitr.onrender.com/api/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -85,7 +85,7 @@ const Chatbot = ({ selectedLanguage }) => {
       {showCrisisAlert && (
         <div className="absolute inset-0 bg-red-950/95 flex flex-col justify-center items-center z-50 rounded-2xl text-white text-center p-8">
           <div className="w-20 h-20 bg-red-600 rounded-full flex items-center justify-center mb-6 animate-pulse">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg xmlns="https://www.w3.org/2000/svg" className="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
             </svg>
           </div>
@@ -146,7 +146,7 @@ const Chatbot = ({ selectedLanguage }) => {
               : 'bg-emerald-600 text-white hover:bg-emerald-500 active:scale-95 shadow-emerald-900/20'
           }`}
         >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 rotate-90" viewBox="0 0 20 20" fill="currentColor">
+          <svg xmlns="https://www.w3.org/2000/svg" className="h-5 w-5 rotate-90" viewBox="0 0 20 20" fill="currentColor">
             <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
           </svg>
         </button>

@@ -74,7 +74,7 @@ const Header = () => {
                 onClick={() => setIsMenuOpen(!isMenuOpen)} 
                 className={`p-3 rounded-full transition-all duration-300 ${isMenuOpen ? 'bg-emerald-500 text-slate-950 rotate-90' : 'bg-white/5 text-slate-300 hover:bg-white/10'}`}
               >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg xmlns="https://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M4 12h16m-7 6h7" />
                 </svg>
               </button>

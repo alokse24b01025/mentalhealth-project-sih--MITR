@@ -13,7 +13,7 @@ export function AuthProvider({ children }) {
   });
 
   async function login(email, password) {
-    const res = await fetch('http://https://mentalhealth-project-sih-mitr.onrender.com/api/auth/login', {
+    const res = await fetch('https://https://mentalhealth-project-sih-mitr.onrender.com/api/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password })
@@ -27,7 +27,7 @@ export function AuthProvider({ children }) {
   }
 
   async function register(email, password) {
-    const res = await fetch('http://https://mentalhealth-project-sih-mitr.onrender.com/api/auth/register', {
+    const res = await fetch('https://https://mentalhealth-project-sih-mitr.onrender.com/api/auth/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password })
