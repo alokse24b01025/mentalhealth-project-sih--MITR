@@ -26,7 +26,7 @@ const AdminDashboard = () => {
   const fetchPending = useCallback(async () => {
     try {
       // Ensure this matches your EXACT backend URL
-      const res = await fetch('https://https://mentalhealth-project-sih-mitr.onrender.com/api/resiliency/pending');
+      const res = await fetch('https://mentalhealth-project-sih-mitr.onrender.commentalhealth-project-sih-mitr.onrender.com/api/resiliency/pending');
       if (res.ok) {
         const data = await res.json();
         setPendingStories(data);
@@ -45,7 +45,7 @@ const AdminDashboard = () => {
   const handleModeration = async (id, decision) => {
     setStatus({ type: 'info', msg: `Syncing ${decision} status...` });
     try {
-      const res = await fetch(`https://https://mentalhealth-project-sih-mitr.onrender.com/api/resiliency/moderate/${id}`, {
+      const res = await fetch(`https://mentalhealth-project-sih-mitr.onrender.commentalhealth-project-sih-mitr.onrender.com/api/resiliency/moderate/${id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: decision })
