@@ -26,7 +26,7 @@ const AdminUpload = () => {
     setStatus({ type: 'loading', msg: 'Syncing with Neural Hub...' });
 
     try {
-      const res = await fetch('http://localhost:5000/api/resources/upload', {
+      const res = await fetch('http://https://mentalhealth-project-sih-mitr.onrender.com/api/resources/upload', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),

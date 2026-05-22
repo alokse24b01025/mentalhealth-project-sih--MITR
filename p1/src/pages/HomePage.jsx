@@ -46,7 +46,7 @@ const HomePage = () => {
   const loadProfiles = async () => {
     try {
       // This endpoint now only returns users with resiliencyStatus: 'approved'
-      const response = await fetch('http://localhost:5000/api/resiliency/shared');
+      const response = await fetch('http://https://mentalhealth-project-sih-mitr.onrender.com/api/resiliency/shared');
       const data = await response.json();
       setRealProfiles(data);
     } catch (err) {
@@ -74,7 +74,7 @@ const HomePage = () => {
     if (!userQuote || !userLocation || !idToSend) return;
 
     try {
-      const response = await fetch('http://localhost:5000/api/resiliency/opt-in', {
+      const response = await fetch('http://https://mentalhealth-project-sih-mitr.onrender.com/api/resiliency/opt-in', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 

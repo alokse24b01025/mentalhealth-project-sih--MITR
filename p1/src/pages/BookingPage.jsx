@@ -79,7 +79,7 @@ const BookingPage = () => {
   useEffect(() => {
     const fetchExperts = async () => {
       try {
-        const res = await fetch('http://localhost:5000/api/experts');
+        const res = await fetch('http://https://mentalhealth-project-sih-mitr.onrender.com/api/experts');
         const data = await res.json();
         setExperts(data);
       } catch (err) {
