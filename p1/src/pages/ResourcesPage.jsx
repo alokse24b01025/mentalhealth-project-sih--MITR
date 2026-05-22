@@ -68,7 +68,7 @@ const ResourcesPage = () => {
   useEffect(() => {
     const fetchResources = async () => {
       try {
-        const response = await fetch('https://mentalhealth-project-sih-mitr.onrender.commentalhealth-project-sih-mitr.onrender.com/api/resources');
+        const response = await fetch('https://mentalhealth-project-sih-mitr.onrender.com/api/resources');
         const data = await response.json();
         setResources(data);
       } catch (error) {

@@ -40,7 +40,7 @@ const Chatbot = ({ selectedLanguage }) => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('https://mentalhealth-project-sih-mitr.onrender.commentalhealth-project-sih-mitr.onrender.com/api/chat', {
+      const response = await fetch('https://mentalhealth-project-sih-mitr.onrender.com/api/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
