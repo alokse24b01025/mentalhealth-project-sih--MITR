@@ -23,7 +23,7 @@ const CareAlertsPage = () => {
       }
       try {
         const userId = currentUser._id || currentUser.uid || currentUser.id;
-        const response = await fetch(`https://mentalhealth-project-sih-mitr.onrender.com/api/alerts?userId=${userId}`);
+        const response = await fetch(`https://mentalhealth-backend-sa09.onrender.com/api/alerts?userId=${userId}`);
         if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
         const data = await response.json();
         setAlerts(data);

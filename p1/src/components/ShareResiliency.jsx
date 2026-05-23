@@ -5,7 +5,7 @@ const ShareResiliency = ({ userId, onComplete }) => {
   const [location, setLocation] = useState('');
 
   const handleShare = async () => {
-    const response = await fetch('https://mentalhealth-project-sih-mitr.onrender.com/api/resiliency/opt-in', {
+    const response = await fetch('https://mentalhealth-backend-sa09.onrender.com/api/resiliency/opt-in', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ userId, quote, location })

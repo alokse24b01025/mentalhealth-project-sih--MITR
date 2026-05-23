@@ -21,7 +21,7 @@ const SignupPage = () => {
       setError('');
 
       const res = await fetch(
-        'https://mentalhealth-project-sih-mitr.onrender.com/api/auth/send-otp',
+        'https://mentalhealth-backend-sa09.onrender.com/api/auth/send-otp',
         {
           method: 'POST',
           headers: {

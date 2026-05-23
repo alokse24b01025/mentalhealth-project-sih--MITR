@@ -10,7 +10,7 @@ const PostItem = ({ post, onUpdate }) => {
 
   const handleUpvote = async () => {
     try {
-      const res = await fetch(`https://mentalhealth-project-sih-mitr.onrender.com/api/posts/${post._id}/upvote`, { method: 'PUT' });
+      const res = await fetch(`https://mentalhealth-backend-sa09.onrender.com/api/posts/${post._id}/upvote`, { method: 'PUT' });
       if (res.ok) onUpdate();
     } catch (err) { console.error("Upvote failed", err); }
   };
@@ -19,7 +19,7 @@ const PostItem = ({ post, onUpdate }) => {
     e.preventDefault();
     if (!commentText.trim()) return;
     try {
-      const res = await fetch(`https://mentalhealth-project-sih-mitr.onrender.com/api/posts/${post._id}/comment`, {
+      const res = await fetch(`https://mentalhealth-backend-sa09.onrender.com/api/posts/${post._id}/comment`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text: commentText })
@@ -53,13 +53,13 @@ const PostItem = ({ post, onUpdate }) => {
           <div className="mb-4 rounded-xl overflow-hidden border border-slate-800 bg-black shadow-inner">
             {post.image.match(/\.(mp4|webm|ogg|mov)$/i) ? (
               <video 
-                src={`https://mentalhealth-project-sih-mitr.onrender.com${post.image}`} 
+                src={`https://mentalhealth-backend-sa09.onrender.com${post.image}`} 
                 controls 
                 className="w-full max-h-[500px]" 
               />
             ) : (
               <img 
-                src={`https://mentalhealth-project-sih-mitr.onrender.com${post.image}`} 
+                src={`https://mentalhealth-backend-sa09.onrender.com${post.image}`} 
                 alt="Post content" 
                 className="w-full max-h-[500px] object-contain"
                 onError={(e) => { e.target.style.display = 'none'; }}
@@ -115,7 +115,7 @@ const PeerSupport = () => {
 
   const fetchPosts = async () => {
     try {
-      const res = await fetch('https://mentalhealth-project-sih-mitr.onrender.com/api/posts');
+      const res = await fetch('https://mentalhealth-backend-sa09.onrender.com/api/posts');
       const data = await res.json();
       setPosts(Array.isArray(data) ? data : []);
     } catch (err) { 
@@ -160,7 +160,7 @@ const PeerSupport = () => {
     if (file) formData.append('media', file); // Field name must match backend Multer setup
 
     try {
-      const res = await fetch('https://mentalhealth-project-sih-mitr.onrender.com/api/posts/create', {
+      const res = await fetch('https://mentalhealth-backend-sa09.onrender.com/api/posts/create', {
         method: 'POST',
         body: formData, // Browser handles multipart headers
       });
