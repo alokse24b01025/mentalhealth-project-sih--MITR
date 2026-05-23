@@ -18,25 +18,33 @@ export function AuthProvider({ children }) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password })
     });
+
     const data = await res.json();
+
     if (!res.ok) throw new Error(data.message || 'Login failed');
-    
+
     localStorage.setItem('user', JSON.stringify(data.user));
     setCurrentUser(data.user);
+
     return data;
   }
 
-  async function register(email, password) {
+  async function register(email, password, otp) {
     const res = await fetch('https://mentalhealth-project-sih-mitr.onrender.com/api/auth/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password })
+      body: JSON.stringify({ email, password, otp })
     });
+
     const data = await res.json();
-    if (!res.ok) throw new Error(data.message || 'Registration failed');
-    
+
+    if (!res.ok) {
+      throw new Error(data.message || 'Registration failed');
+    }
+
     localStorage.setItem('user', JSON.stringify(data.user));
     setCurrentUser(data.user);
+
     return data;
   }
 
