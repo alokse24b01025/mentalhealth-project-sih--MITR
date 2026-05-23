@@ -10,8 +10,6 @@ const bcrypt = require('bcryptjs');
 
 const JWT_SECRET = process.env.JWT_SECRET || "fallback_secret_for_dev_only";
 
-
-
 // ---------------- LOGIN ----------------
 router.post('/login', async (req, res) => {
     const { email, password } = req.body;
@@ -66,6 +64,7 @@ router.post('/send-otp', async (req, res) => {
     const { email } = req.body;
 
     try {
+
         const existingUser = await User.findOne({ email });
 
         if (existingUser) {
@@ -80,48 +79,52 @@ router.post('/send-otp', async (req, res) => {
         // DELETE OLD OTP
         await Otp.deleteMany({ email });
 
-        // SAVE NEW OTP
+        // SAVE OTP
         await Otp.create({
             email,
             otp,
             expiresAt: new Date(Date.now() + 5 * 60 * 1000)
         });
 
-       
+        // SEND EMAIL USING BREVO API
+        await axios.post(
+            'https://api.brevo.com/v3/smtp/email',
+            {
+                sender: {
+                    name: 'MITR',
+                    email: 'ac4ba0001@smtp-brevo.com'
+                },
+                to: [
+                    {
+                        email: email
+                    }
+                ],
+                subject: 'Your MITR OTP Verification Code',
+                htmlContent: `
+                    <div style="font-family: Arial, sans-serif;">
+                        <h2>MITR OTP Verification</h2>
+                        <p>Your OTP code is:</p>
+                        <h1 style="letter-spacing: 5px;">${otp}</h1>
+                        <p>This OTP will expire in 5 minutes.</p>
+                    </div>
+                `
+            },
+            {
+                headers: {
+                    'accept': 'application/json',
+                    'api-key': process.env.BREVO_API_KEY,
+                    'content-type': 'application/json'
+                }
+            }
+        );
 
-await axios.post(
-  'https://api.brevo.com/v3/smtp/email',
-  {
-    sender: {
-  name: 'MITR',
-  email: 'ac4ba0001@smtp-brevo.com'
-},
-    to: [
-      {
-        email: email
-      }
-    ],
-    subject: 'Your MITR OTP Verification Code',
-    htmlContent: `
-      <h2>Your OTP Code</h2>
-      <p>Your OTP is:</p>
-      <h1>${otp}</h1>
-      <p>This OTP expires in 5 minutes.</p>
-    `
-  },
-  {
-    headers: {
-      'api-key': process.env.BREVO_API_KEY,
-      'Content-Type': 'application/json'
-    }
-  }
-);
         res.json({
             message: 'OTP sent successfully'
         });
 
     } catch (err) {
-        console.error("OTP Error:", err.message);
+
+        console.error("OTP Error:", err.response?.data || err.message);
 
         res.status(500).json({
             message: 'Failed to send OTP'
@@ -131,6 +134,7 @@ await axios.post(
 
 // ---------------- REGISTER ----------------
 router.post('/register', async (req, res) => {
+
     const { email, password, otp } = req.body;
 
     try {
@@ -181,7 +185,7 @@ router.post('/register', async (req, res) => {
 
         await user.save();
 
-        // DELETE OTP AFTER SUCCESS
+        // DELETE OTP
         await Otp.deleteMany({ email });
 
         const payload = {
@@ -204,6 +208,7 @@ router.post('/register', async (req, res) => {
         });
 
     } catch (err) {
+
         console.error("Register Error:", err.message);
 
         res.status(500).json({
