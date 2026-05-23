@@ -88,16 +88,15 @@ router.post('/send-otp', async (req, res) => {
             expiresAt: new Date(Date.now() + 5 * 60 * 1000)
         });
 
-        // SEND EMAIL
-       const axios = require('axios');
+       
 
 await axios.post(
   'https://api.brevo.com/v3/smtp/email',
   {
     sender: {
-      name: 'MITR',
-      email: 'projectmitr1@gmail.com'
-    },
+  name: 'MITR',
+  email: 'ac4ba0001@smtp-brevo.com'
+},
     to: [
       {
         email: email
