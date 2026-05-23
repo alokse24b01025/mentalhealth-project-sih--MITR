@@ -92,7 +92,7 @@ router.post('/send-otp', async (req, res) => {
             {
                 sender: {
                     name: 'MITR',
-                    email: 'ac4ba0001@smtp-brevo.com'
+                    email: 'projectmitr1@gmail.com'
                 },
                 to: [
                     {
