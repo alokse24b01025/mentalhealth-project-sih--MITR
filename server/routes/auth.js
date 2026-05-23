@@ -7,7 +7,6 @@ const Otp = require('../models/Otp');
 
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const nodemailer = require('nodemailer');
 
 const JWT_SECRET = process.env.JWT_SECRET || "fallback_secret_for_dev_only";
 
