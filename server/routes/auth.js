@@ -1,3 +1,4 @@
+const axios = require('axios');
 const express = require('express');
 const router = express.Router();
 
@@ -10,16 +11,7 @@ const nodemailer = require('nodemailer');
 
 const JWT_SECRET = process.env.JWT_SECRET || "fallback_secret_for_dev_only";
 
-// EMAIL TRANSPORTER
-const transporter = nodemailer.createTransport({
-    host: "smtp-relay.brevo.com",
-    port: 587,
-    secure: false,
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
-    }
-});
+
 
 // ---------------- LOGIN ----------------
 router.post('/login', async (req, res) => {
@@ -97,20 +89,35 @@ router.post('/send-otp', async (req, res) => {
         });
 
         // SEND EMAIL
-        await transporter.sendMail({
-            from: process.env.EMAIL_USER,
-            to: email,
-            subject: 'MITR Email Verification OTP',
-            html: `
-                <div style="font-family: Arial; padding: 20px;">
-                    <h2>Email Verification</h2>
-                    <p>Your OTP code is:</p>
-                    <h1>${otp}</h1>
-                    <p>This OTP will expire in 5 minutes.</p>
-                </div>
-            `
-        });
+       const axios = require('axios');
 
+await axios.post(
+  'https://api.brevo.com/v3/smtp/email',
+  {
+    sender: {
+      name: 'MITR',
+      email: 'projectmitr1@gmail.com'
+    },
+    to: [
+      {
+        email: email
+      }
+    ],
+    subject: 'Your MITR OTP Verification Code',
+    htmlContent: `
+      <h2>Your OTP Code</h2>
+      <p>Your OTP is:</p>
+      <h1>${otp}</h1>
+      <p>This OTP expires in 5 minutes.</p>
+    `
+  },
+  {
+    headers: {
+      'api-key': process.env.BREVO_API_KEY,
+      'Content-Type': 'application/json'
+    }
+  }
+);
         res.json({
             message: 'OTP sent successfully'
         });
