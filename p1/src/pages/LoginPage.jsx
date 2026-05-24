@@ -6,10 +6,13 @@ import logo from '../assets/logo.png';
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [otp, setOtp] = useState('');
+  const [otpSent, setOtpSent] = useState(false);
+  const [showOtpButton, setShowOtpButton] = useState(false);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   
-  const { login } = useAuth();
+  const { login, loginSendOtp, loginVerifyOtp } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -32,6 +35,51 @@ const LoginPage = () => {
     } catch (err) {
       console.error("Login page error catch:", err.message);
       setError(err.message || "Invalid email or password. Please try again.");
+      if (err.message === "Wrong password") {
+        setShowOtpButton(true);
+      } else {
+        setShowOtpButton(false);
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleSendOtp = async () => {
+    if (!email) {
+      setError("Please enter your email address first.");
+      return;
+    }
+    setError('');
+    setIsLoading(true);
+    try {
+      await loginSendOtp(email);
+      setOtpSent(true);
+      setError('');
+      alert("OTP sent successfully to your registered email");
+    } catch (err) {
+      setError(err.message || "Failed to send OTP.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleVerifyOtp = async (e) => {
+    if (e) e.preventDefault();
+    if (!otp) {
+      setError("Please enter the 6-digit OTP.");
+      return;
+    }
+    setError('');
+    setIsLoading(true);
+    try {
+      const result = await loginVerifyOtp(email, otp);
+      if (result) {
+        const destination = location.state?.from?.pathname || '/';
+        navigate(destination, { replace: true });
+      }
+    } catch (err) {
+      setError(err.message || "OTP verification failed.");
     } finally {
       setIsLoading(false);
     }
@@ -69,12 +117,22 @@ const LoginPage = () => {
 
         {/* Error Feedback */}
         {error && (
-          <div className="mb-8 p-4 bg-red-500/10 border border-red-500/20 rounded-2xl flex items-center animate-pulse">
-            <p className="text-red-400 text-[11px] font-bold uppercase tracking-wider mx-auto">{error}</p>
+          <div className="mb-8 p-4 bg-red-500/10 border border-red-500/20 rounded-2xl flex flex-col items-center gap-3 animate-pulse">
+            <p className="text-red-400 text-[11px] font-bold uppercase tracking-wider text-center">{error}</p>
+            {showOtpButton && !otpSent && (
+              <button
+                type="button"
+                onClick={handleSendOtp}
+                disabled={isLoading}
+                className="bg-emerald-600/20 border border-emerald-500/30 hover:bg-emerald-500 hover:text-slate-950 text-emerald-400 text-[9px] font-black px-4 py-2 rounded-full uppercase tracking-widest transition-all active:scale-95"
+              >
+                Reset & Login with OTP
+              </button>
+            )}
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={otpSent ? handleVerifyOtp : handleSubmit} className="space-y-6">
           {/* Email Input */}
           <div className="space-y-2">
             <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-1">
@@ -85,25 +143,45 @@ const LoginPage = () => {
               value={email} 
               onChange={(e) => setEmail(e.target.value)} 
               required 
-              className="w-full px-6 py-4 bg-slate-950/50 border border-white/5 rounded-2xl focus:border-emerald-500/50 focus:ring-4 focus:ring-emerald-500/5 outline-none transition-all duration-300 text-slate-200 text-sm placeholder:text-slate-600" 
+              disabled={otpSent}
+              className="w-full px-6 py-4 bg-slate-950/50 border border-white/5 rounded-2xl focus:border-emerald-500/50 focus:ring-4 focus:ring-emerald-500/5 outline-none transition-all duration-300 text-slate-200 text-sm placeholder:text-slate-600 disabled:opacity-50" 
               placeholder="name@university.edu" 
             />
           </div>
 
           {/* Password Input */}
-          <div className="space-y-2">
-            <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-1">
-              Security Key
-            </label>
-            <input 
-              type="password" 
-              value={password} 
-              onChange={(e) => setPassword(e.target.value)} 
-              required 
-              className="w-full px-6 py-4 bg-slate-950/50 border border-white/5 rounded-2xl focus:border-emerald-500/50 focus:ring-4 focus:ring-emerald-500/5 outline-none transition-all duration-300 text-slate-200 text-sm placeholder:text-slate-600" 
-              placeholder="••••••••" 
-            />
-          </div>
+          {!otpSent && (
+            <div className="space-y-2">
+              <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-1">
+                Security Key
+              </label>
+              <input 
+                type="password" 
+                value={password} 
+                onChange={(e) => setPassword(e.target.value)} 
+                required 
+                className="w-full px-6 py-4 bg-slate-950/50 border border-white/5 rounded-2xl focus:border-emerald-500/50 focus:ring-4 focus:ring-emerald-500/5 outline-none transition-all duration-300 text-slate-200 text-sm placeholder:text-slate-600" 
+                placeholder="••••••••" 
+              />
+            </div>
+          )}
+
+          {/* OTP Input (Only show if OTP sent) */}
+          {otpSent && (
+            <div className="space-y-2 animate-in slide-in-from-top-2 duration-300">
+              <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-1">
+                Enter Login OTP
+              </label>
+              <input 
+                type="text" 
+                value={otp} 
+                onChange={(e) => setOtp(e.target.value)} 
+                required 
+                className="w-full px-6 py-4 bg-slate-950/50 border border-white/5 rounded-2xl focus:border-emerald-500/50 focus:ring-4 focus:ring-emerald-500/5 outline-none transition-all duration-300 text-slate-200 text-sm placeholder:text-slate-600" 
+                placeholder="Enter 6-digit OTP sent to mail" 
+              />
+            </div>
+          )}
 
           {/* Submit Button */}
           <button 
@@ -120,6 +198,8 @@ const LoginPage = () => {
                 <div className="w-4 h-4 border-2 border-slate-500 border-t-slate-200 rounded-full animate-spin"></div>
                 <span>Authenticating</span>
               </div>
+            ) : otpSent ? (
+              'Verify OTP & Enter'
             ) : (
               'Enter Sanctuary'
             )}

@@ -48,13 +48,44 @@ export function AuthProvider({ children }) {
     return data;
   }
 
+  async function loginSendOtp(email) {
+    const res = await fetch('https://mentalhealth-backend-sa09.onrender.com/api/auth/login-send-otp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email })
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) throw new Error(data.message || 'Failed to send login OTP');
+
+    return data;
+  }
+
+  async function loginVerifyOtp(email, otp) {
+    const res = await fetch('https://mentalhealth-backend-sa09.onrender.com/api/auth/login-verify-otp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, otp })
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) throw new Error(data.message || 'OTP verification failed');
+
+    localStorage.setItem('user', JSON.stringify(data.user));
+    setCurrentUser(data.user);
+
+    return data;
+  }
+
   function logout() {
     localStorage.removeItem('user');
     setCurrentUser(null);
   }
 
   return (
-    <AuthContext.Provider value={{ currentUser, login, register, logout }}>
+    <AuthContext.Provider value={{ currentUser, login, register, logout, loginSendOtp, loginVerifyOtp }}>
       {children}
     </AuthContext.Provider>
   );

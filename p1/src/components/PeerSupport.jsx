@@ -48,18 +48,18 @@ const PostItem = ({ post, onUpdate }) => {
         
         <p className="text-slate-200 text-sm sm:text-lg mb-4 leading-relaxed whitespace-pre-wrap">{post.content}</p>
         
-        {/* MEDIA RENDERER: Connects to server's static uploads folder */}
+        {/* MEDIA RENDERER: Connects to server's static uploads folder or renders persistent web link */}
         {post.image && (
           <div className="mb-4 rounded-xl overflow-hidden border border-slate-800 bg-black shadow-inner">
             {post.image.match(/\.(mp4|webm|ogg|mov)$/i) ? (
               <video 
-                src={`https://mentalhealth-backend-sa09.onrender.com${post.image}`} 
+                src={post.image.startsWith('http') ? post.image : `https://mentalhealth-backend-sa09.onrender.com${post.image}`} 
                 controls 
                 className="w-full max-h-[500px]" 
               />
             ) : (
               <img 
-                src={`https://mentalhealth-backend-sa09.onrender.com${post.image}`} 
+                src={post.image.startsWith('http') ? post.image : `https://mentalhealth-backend-sa09.onrender.com${post.image}`} 
                 alt="Post content" 
                 className="w-full max-h-[500px] object-contain"
                 onError={(e) => { e.target.style.display = 'none'; }}
@@ -104,6 +104,7 @@ const PostItem = ({ post, onUpdate }) => {
 const PeerSupport = () => {
   const [posts, setPosts] = useState([]);
   const [newPost, setNewPost] = useState('');
+  const [imageURL, setImageURL] = useState('');
   const [file, setFile] = useState(null);
   const [filePreview, setFilePreview] = useState(null);
   const [isPosting, setIsPosting] = useState(false);
@@ -157,7 +158,11 @@ const PeerSupport = () => {
     const formData = new FormData();
     formData.append('content', newPost);
     formData.append('authorEmail', currentUser?.email || "Anonymous");
-    if (file) formData.append('media', file); // Field name must match backend Multer setup
+    if (file) {
+      formData.append('media', file); // Field name must match backend Multer setup
+    } else if (imageURL) {
+      formData.append('image', imageURL); // Field name must match req.body.image
+    }
 
     try {
       const res = await fetch('https://mentalhealth-backend-sa09.onrender.com/api/posts/create', {
@@ -168,6 +173,7 @@ const PeerSupport = () => {
       if (res.ok) {
         setNewPost('');
         setFile(null);
+        setImageURL('');
         if (filePreview) URL.revokeObjectURL(filePreview);
         setFilePreview(null);
         fetchPosts();
@@ -197,6 +203,14 @@ const PeerSupport = () => {
             placeholder="Share your story anonymously... Access camera or gallery below."
             rows="3"
             required
+          />
+          
+          <input 
+            type="text"
+            value={imageURL}
+            onChange={(e) => setImageURL(e.target.value)}
+            className="w-full p-3 bg-slate-800 rounded-xl text-white border border-slate-700 outline-none mb-4 text-xs sm:text-sm focus:ring-2 focus:ring-emerald-500 transition-all placeholder:text-slate-600"
+            placeholder="Or paste an Image/Video Web Link (Optional Persistent URL)"
           />
           
           {filePreview && (

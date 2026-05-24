@@ -32,7 +32,7 @@ router.post('/create', upload.single('media'), async (req, res) => {
     const newPost = new Post({
       content: req.body.content,
       authorEmail: req.body.authorEmail || "Anonymous",
-      image: req.file ? `/uploads/${req.file.filename}` : null // Save relative path
+      image: req.file ? `/uploads/${req.file.filename}` : (req.body.image || null) // Save relative path or direct external URL
     });
     const savedPost = await newPost.save();
     res.status(201).json(savedPost);
