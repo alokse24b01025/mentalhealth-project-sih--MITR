@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { API_BASE_URL } from '../config';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 
@@ -26,7 +27,7 @@ const AdminDashboard = () => {
   const fetchPending = useCallback(async () => {
     try {
       // Ensure this matches your EXACT backend URL
-      const res = await fetch('https://mentalhealth-backend-sa09.onrender.com/api/resiliency/pending');
+      const res = await fetch(`${API_BASE_URL}/api/resiliency/pending`);
       if (res.ok) {
         const data = await res.json();
         setPendingStories(data);
@@ -45,7 +46,7 @@ const AdminDashboard = () => {
   const handleModeration = async (id, decision) => {
     setStatus({ type: 'info', msg: `Syncing ${decision} status...` });
     try {
-      const res = await fetch(`https://mentalhealth-backend-sa09.onrender.com/api/resiliency/moderate/${id}`, {
+      const res = await fetch(`${API_BASE_URL}/api/resiliency/moderate/${id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: decision })

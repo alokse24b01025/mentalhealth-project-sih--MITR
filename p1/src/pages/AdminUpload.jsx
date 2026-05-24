@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
+import { API_BASE_URL } from '../config';
 
 const AdminUpload = () => {
   const navigate = useNavigate();
@@ -26,7 +27,7 @@ const AdminUpload = () => {
     setStatus({ type: 'loading', msg: 'Syncing with Neural Hub...' });
 
     try {
-      const res = await fetch('https://mentalhealth-backend-sa09.onrender.com/api/resources/upload', {
+      const res = await fetch(`${API_BASE_URL}/api/resources/upload`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),

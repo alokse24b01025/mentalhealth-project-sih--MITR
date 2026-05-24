@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Header from '../components/Header';
 import { useAuth } from '../AuthContext';
+import { API_BASE_URL } from '../config';
 
 const CareAlertsPage = () => {
   const [alerts, setAlerts] = useState([]);
@@ -23,7 +24,7 @@ const CareAlertsPage = () => {
       }
       try {
         const userId = currentUser._id || currentUser.uid || currentUser.id;
-        const response = await fetch(`https://mentalhealth-backend-sa09.onrender.com/api/alerts?userId=${userId}`);
+        const response = await fetch(`${API_BASE_URL}/api/alerts?userId=${userId}`);
         if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
         const data = await response.json();
         setAlerts(data);

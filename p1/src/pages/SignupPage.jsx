@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
+import { API_BASE_URL } from '../config';
 
 const SignupPage = () => {
   const [email, setEmail] = useState('');
@@ -21,7 +22,7 @@ const SignupPage = () => {
       setError('');
 
       const res = await fetch(
-        'https://mentalhealth-backend-sa09.onrender.com/api/auth/send-otp',
+        `${API_BASE_URL}/api/auth/send-otp`,
         {
           method: 'POST',
           headers: {

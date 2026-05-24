@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useAuth } from '../AuthContext'; 
+import { API_BASE_URL } from '../config';
 
 const Chatbot = ({ selectedLanguage }) => {
   const [messages, setMessages] = useState([
@@ -40,7 +41,7 @@ const Chatbot = ({ selectedLanguage }) => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('https://mentalhealth-backend-sa09.onrender.com/api/chat', {
+      const response = await fetch(`${API_BASE_URL}/api/chat`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

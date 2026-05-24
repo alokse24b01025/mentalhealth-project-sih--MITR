@@ -2,15 +2,22 @@ import React, { useState, useEffect, useRef } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { useAuth } from '../AuthContext';
+import { API_BASE_URL } from '../config';
 
 // --- Sub-component: Individual Post Item ---
 const PostItem = ({ post, onUpdate }) => {
   const [showComments, setShowComments] = useState(false);
   const [commentText, setCommentText] = useState('');
+  const { currentUser } = useAuth();
+
+  const isOwnPost = currentUser && post.authorEmail === currentUser.email;
+  const authorDisplayName = isOwnPost 
+    ? `${currentUser.email.split('@')[0]} (You)` 
+    : "Anonymous Peer";
 
   const handleUpvote = async () => {
     try {
-      const res = await fetch(`https://mentalhealth-backend-sa09.onrender.com/api/posts/${post._id}/upvote`, { method: 'PUT' });
+      const res = await fetch(`${API_BASE_URL}/api/posts/${post._id}/upvote`, { method: 'PUT' });
       if (res.ok) onUpdate();
     } catch (err) { console.error("Upvote failed", err); }
   };
@@ -19,7 +26,7 @@ const PostItem = ({ post, onUpdate }) => {
     e.preventDefault();
     if (!commentText.trim()) return;
     try {
-      const res = await fetch(`https://mentalhealth-backend-sa09.onrender.com/api/posts/${post._id}/comment`, {
+      const res = await fetch(`${API_BASE_URL}/api/posts/${post._id}/comment`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text: commentText })
@@ -42,7 +49,7 @@ const PostItem = ({ post, onUpdate }) => {
 
       <div className="flex-1 p-4 sm:p-6">
         <div className="flex justify-between items-center mb-3">
-          <span className="text-emerald-400 text-xs font-bold italic uppercase tracking-widest">Anonymous Peer</span>
+          <span className="text-emerald-400 text-xs font-bold italic uppercase tracking-widest">{authorDisplayName}</span>
           <span className="text-slate-500 text-[10px]">{new Date(post.date).toLocaleDateString()}</span>
         </div>
         
@@ -53,13 +60,13 @@ const PostItem = ({ post, onUpdate }) => {
           <div className="mb-4 rounded-xl overflow-hidden border border-slate-800 bg-black shadow-inner">
             {post.image.match(/\.(mp4|webm|ogg|mov)$/i) ? (
               <video 
-                src={post.image.startsWith('http') ? post.image : `https://mentalhealth-backend-sa09.onrender.com${post.image}`} 
+                src={post.image.startsWith('http') || post.image.startsWith('data:') ? post.image : `${API_BASE_URL}${post.image}`} 
                 controls 
                 className="w-full max-h-[500px]" 
               />
             ) : (
               <img 
-                src={post.image.startsWith('http') ? post.image : `https://mentalhealth-backend-sa09.onrender.com${post.image}`} 
+                src={post.image.startsWith('http') || post.image.startsWith('data:') ? post.image : `${API_BASE_URL}${post.image}`} 
                 alt="Post content" 
                 className="w-full max-h-[500px] object-contain"
                 onError={(e) => { e.target.style.display = 'none'; }}
@@ -116,7 +123,7 @@ const PeerSupport = () => {
 
   const fetchPosts = async () => {
     try {
-      const res = await fetch('https://mentalhealth-backend-sa09.onrender.com/api/posts');
+      const res = await fetch(`${API_BASE_URL}/api/posts`);
       const data = await res.json();
       setPosts(Array.isArray(data) ? data : []);
     } catch (err) { 
@@ -150,24 +157,34 @@ const PeerSupport = () => {
     }
   };
 
+  const convertToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+  };
+
   const handlePost = async (e) => {
     e.preventDefault();
     if (!newPost.trim() || isPosting) return;
     setIsPosting(true);
 
-    const formData = new FormData();
-    formData.append('content', newPost);
-    formData.append('authorEmail', currentUser?.email || "Anonymous");
-    if (file) {
-      formData.append('media', file); // Field name must match backend Multer setup
-    } else if (imageURL) {
-      formData.append('image', imageURL); // Field name must match req.body.image
-    }
-
     try {
-      const res = await fetch('https://mentalhealth-backend-sa09.onrender.com/api/posts/create', {
+      let finalImage = imageURL || null;
+      if (file) {
+        finalImage = await convertToBase64(file);
+      }
+
+      const res = await fetch(`${API_BASE_URL}/api/posts/create`, {
         method: 'POST',
-        body: formData, // Browser handles multipart headers
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          content: newPost,
+          authorEmail: currentUser?.email || "Anonymous",
+          image: finalImage
+        })
       });
 
       if (res.ok) {

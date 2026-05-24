@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
+import { API_BASE_URL } from '../config';
 
 const ShareResiliency = ({ userId, onComplete }) => {
   const [quote, setQuote] = useState('');
   const [location, setLocation] = useState('');
 
   const handleShare = async () => {
-    const response = await fetch('https://mentalhealth-backend-sa09.onrender.com/api/resiliency/opt-in', {
+    const response = await fetch(`${API_BASE_URL}/api/resiliency/opt-in`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ userId, quote, location })

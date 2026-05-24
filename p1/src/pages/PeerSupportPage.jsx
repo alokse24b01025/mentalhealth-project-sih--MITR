@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { useAuth } from '../AuthContext';
+import { API_BASE_URL } from '../config';
 
 const PostCard = ({ post, onUpdate }) => {
   // --- States must be INSIDE the component ---
@@ -9,14 +10,14 @@ const PostCard = ({ post, onUpdate }) => {
   const [showComments, setShowComments] = useState(false);
 
   const handleUpvote = async () => {
-    const res = await fetch(`https://mentalhealth-backend-sa09.onrender.com/api/posts/${post._id}/upvote`, { method: 'PUT' });
+    const res = await fetch(`${API_BASE_URL}/api/posts/${post._id}/upvote`, { method: 'PUT' });
     if (res.ok) onUpdate();
   };
 
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
     if (!commentText.trim()) return;
-    const res = await fetch(`https://mentalhealth-backend-sa09.onrender.com/api/posts/${post._id}/comment`, {
+    const res = await fetch(`${API_BASE_URL}/api/posts/${post._id}/comment`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ text: commentText, author: "Anonymous Peer" })
@@ -88,7 +89,7 @@ const PeerSupport = () => {
 
   const fetchPosts = async () => {
     try {
-      const res = await fetch('https://mentalhealth-backend-sa09.onrender.com/api/posts');
+      const res = await fetch(`${API_BASE_URL}/api/posts`);
       const data = await res.json();
       setPosts(data);
     } catch (err) { console.error("Fetch error:", err); }
@@ -100,7 +101,7 @@ const handleAddPost = async (e) => {
   console.log("Attempting to post..."); // Check your Browser Console (F12)
 
   try {
-    const res = await fetch('https://mentalhealth-backend-sa09.onrender.com/api/posts/create', {
+    const res = await fetch(`${API_BASE_URL}/api/posts/create`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ 

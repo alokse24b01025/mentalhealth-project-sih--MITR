@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import { API_BASE_URL } from './config';
 
 const AuthContext = React.createContext();
 
@@ -13,7 +14,7 @@ export function AuthProvider({ children }) {
   });
 
   async function login(email, password) {
-    const res = await fetch('https://mentalhealth-backend-sa09.onrender.com/api/auth/login', {
+    const res = await fetch(`${API_BASE_URL}/api/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password })
@@ -30,7 +31,7 @@ export function AuthProvider({ children }) {
   }
 
   async function register(email, password, otp) {
-    const res = await fetch('https://mentalhealth-backend-sa09.onrender.com/api/auth/register', {
+    const res = await fetch(`${API_BASE_URL}/api/auth/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password, otp })
@@ -49,7 +50,7 @@ export function AuthProvider({ children }) {
   }
 
   async function loginSendOtp(email) {
-    const res = await fetch('https://mentalhealth-backend-sa09.onrender.com/api/auth/login-send-otp', {
+    const res = await fetch(`${API_BASE_URL}/api/auth/login-send-otp`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email })
@@ -63,7 +64,7 @@ export function AuthProvider({ children }) {
   }
 
   async function loginVerifyOtp(email, otp) {
-    const res = await fetch('https://mentalhealth-backend-sa09.onrender.com/api/auth/login-verify-otp', {
+    const res = await fetch(`${API_BASE_URL}/api/auth/login-verify-otp`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, otp })

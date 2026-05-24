@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { API_BASE_URL } from '../config';
 
 const CounselorCard = ({ counselor }) => {
   const [sessionType, setSessionType] = useState('In-Person');
@@ -79,7 +80,7 @@ const BookingPage = () => {
   useEffect(() => {
     const fetchExperts = async () => {
       try {
-        const res = await fetch('https://mentalhealth-backend-sa09.onrender.com/api/experts');
+        const res = await fetch(`${API_BASE_URL}/api/experts`);
         const data = await res.json();
         setExperts(data);
       } catch (err) {

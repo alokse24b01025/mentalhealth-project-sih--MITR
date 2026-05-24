@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext'; 
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { API_BASE_URL } from '../config';
 
 // --- Intersection Observer Logic ---
 const useIntersectionObserver = (options) => {
@@ -46,7 +47,7 @@ const HomePage = () => {
   const loadProfiles = async () => {
     try {
       // This endpoint now only returns users with resiliencyStatus: 'approved'
-      const response = await fetch('https://mentalhealth-backend-sa09.onrender.com/api/resiliency/shared');
+      const response = await fetch(`${API_BASE_URL}/api/resiliency/shared`);
       const data = await response.json();
       setRealProfiles(data);
     } catch (err) {
@@ -74,7 +75,7 @@ const HomePage = () => {
     if (!userQuote || !userLocation || !idToSend) return;
 
     try {
-      const response = await fetch('https://mentalhealth-backend-sa09.onrender.com/api/resiliency/opt-in', {
+      const response = await fetch(`${API_BASE_URL}/api/resiliency/opt-in`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
@@ -157,7 +158,7 @@ const HomePage = () => {
         </div>
       )}
 
-      <main ref={mainScrollRef} className="flex-1 overflow-y-auto no-scrollbar scroll-smooth">
+      <main ref={mainScrollRef} className="flex-1 overflow-y-auto overflow-x-hidden no-scrollbar scroll-smooth">
         {/* HERO */}
         <section className="relative min-h-[90vh] flex items-center justify-center px-6">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-emerald-500/10 blur-[120px] rounded-full"></div>
@@ -173,15 +174,53 @@ const HomePage = () => {
           </div>
         </section>
 
-        {/* FEATURES */}
-        <section ref={fRef} className={`py-16 sm:py-24 md:py-32 transition-all duration-1000 ${fVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          <div className="w-full overflow-hidden relative py-10">
-            <div className="flex animate-scroll-slow">
-              {[...coreFeatures, ...coreFeatures].map((f, i) => (
-                <div key={i} onClick={(e) => handleFeatureAccess(e, f.to)} className="cursor-pointer flex-shrink-0 w-[340px] h-[240px] mx-5 p-10 flex flex-col items-start justify-center bg-slate-900/40 backdrop-blur-xl border border-white/5 rounded-[2.5rem] shadow-2xl hover:border-emerald-500/40 group transition-all">
-                  <div className="text-3xl mb-6 opacity-80 group-hover:scale-125 transition-transform">{f.icon}</div>
-                  <h4 className="font-bold text-xl text-slate-100 tracking-tight">{f.title}</h4>
-                  <p className="text-slate-400 text-sm mt-3 leading-relaxed">{f.description}</p>
+        {/* FEATURES: Modern Snap-Scrollable Swiper with Floating Desktop Controls */}
+        <section ref={fRef} className={`py-12 sm:py-20 transition-all duration-1000 ${fVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <div className="max-w-7xl mx-auto px-6 sm:px-12 mb-6 flex justify-between items-center">
+            <div>
+              <h3 className="text-xl sm:text-3xl font-light text-white tracking-tight">Explore <span className="font-serif italic text-emerald-500">Sanctuary</span></h3>
+              <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest mt-1">Swipe or click arrows to navigate features</p>
+            </div>
+            
+            {/* Glassmorphic Navigation Buttons (Hidden on mobile touch screens, active on desktop) */}
+            <div className="hidden sm:flex gap-2">
+              <button 
+                onClick={() => {
+                  const container = document.getElementById('feature-scroll-container');
+                  if (container) container.scrollLeft -= 360;
+                }}
+                className="w-10 h-10 rounded-full bg-slate-900/60 border border-white/5 hover:border-emerald-500/30 flex items-center justify-center text-slate-400 hover:text-white transition-all active:scale-90"
+                title="Scroll Left"
+              >
+                ←
+              </button>
+              <button 
+                onClick={() => {
+                  const container = document.getElementById('feature-scroll-container');
+                  if (container) container.scrollLeft += 360;
+                }}
+                className="w-10 h-10 rounded-full bg-slate-900/60 border border-white/5 hover:border-emerald-500/30 flex items-center justify-center text-slate-400 hover:text-white transition-all active:scale-90"
+                title="Scroll Right"
+              >
+                →
+              </button>
+            </div>
+          </div>
+
+          <div className="w-full relative px-2 sm:px-6">
+            <div 
+              id="feature-scroll-container"
+              className="w-full overflow-x-auto flex gap-6 py-6 px-4 sm:px-6 scroll-smooth snap-x snap-mandatory no-scrollbar"
+            >
+              {coreFeatures.map((f, i) => (
+                <div 
+                  key={i} 
+                  onClick={(e) => handleFeatureAccess(e, f.to)} 
+                  className="cursor-pointer flex-shrink-0 w-[290px] sm:w-[340px] h-[220px] sm:h-[240px] p-8 sm:p-10 flex flex-col items-start justify-center bg-slate-900/40 backdrop-blur-xl border border-white/5 rounded-[2.5rem] shadow-2xl hover:border-emerald-500/40 group transition-all snap-start"
+                >
+                  <div className="text-3xl mb-4 sm:mb-6 opacity-80 group-hover:scale-125 transition-transform">{f.icon}</div>
+                  <h4 className="font-bold text-lg sm:text-xl text-slate-100 tracking-tight">{f.title}</h4>
+                  <p className="text-slate-400 text-xs sm:text-sm mt-2 sm:mt-3 leading-relaxed">{f.description}</p>
                 </div>
               ))}
             </div>
@@ -231,6 +270,8 @@ const HomePage = () => {
       <Footer />
 
       <style>{`
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         .animate-scroll-slow { animation: scroll 60s linear infinite; }
         @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         .animate-slide-up { animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; opacity: 0; }

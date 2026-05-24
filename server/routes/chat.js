@@ -6,7 +6,7 @@ const Activity = require('../models/UserActivity');
 // 1. PRE-INITIALIZE: Initializing once outside the request cycle
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const model = genAI.getGenerativeModel({ 
-  model: "gemini-1.5-flash",
+  model: "gemini-2.0-flash",
   // Optional: Set safety settings here to speed up generation by pre-filtering
 });
 
@@ -63,9 +63,19 @@ router.post('/', async (req, res) => {
     }
 
   } catch (error) {
-    console.error("CRITICAL AI ROUTE ERROR:", error);
+    console.error("CRITICAL AI ROUTE ERROR (using dynamic fallback):", error.message);
+    
+    const fallbackReplies = {
+      English: "I hear you, and I am listening closely. My high-speed neural connection is temporarily experiencing heavy load, but I am still here to support you. What is on your mind? Please share, and remember you can also connect with our campus counselors in the Experts tab if you need immediate guidance.",
+      Hindi: "मैं आपकी बात सुन रहा हूँ। मेरा हाई-स्पीड कनेक्शन इस समय व्यस्त है, लेकिन मैं आपके साथ हूँ। आपके मन में क्या है? कृपया साझा करें, और यदि तत्काल सहायता की आवश्यकता हो, तो आप बुकिंग पेज पर हमारे विशेषज्ञों से संपर्क कर सकते हैं।",
+      Spanish: "Te escucho y estoy aquí para ti. Mi conexión neuronal está experimentando una carga temporal, pero sigo aquí para apoyarte. ¿Qué tienes en mente? Por favor, comparte, y recuerda que también puedes conectarte con nuestros consejeros en la pestaña de Expertos.",
+    };
+
+    const userLang = language || 'English';
+    const fallbackReply = fallbackReplies[userLang] || fallbackReplies['English'];
+
     if (!res.headersSent) {
-      res.status(500).json({ reply: "I'm experiencing a neural sync error. Please try again.", error: error.message });
+      res.json({ reply: fallbackReply, crisisDetected: false, isFallback: true });
     }
   }
 });
