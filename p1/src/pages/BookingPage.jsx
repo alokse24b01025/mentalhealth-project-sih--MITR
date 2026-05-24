@@ -95,21 +95,21 @@ const BookingPage = () => {
     <div className="h-screen flex flex-col bg-[#020617] text-slate-200 font-sans">
       <Header />
       
-      <main className="flex-1 overflow-y-auto p-8 pt-40">
+      <main className="flex-1 overflow-y-auto p-4 sm:p-8 pt-24 sm:pt-40">
         <div className="max-w-7xl mx-auto text-center mb-16">
-          <h2 className="text-5xl font-black text-white tracking-tight">Professional Support</h2>
-          <p className="mt-4 text-slate-400 text-lg max-w-2xl mx-auto font-light">
+          <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">Professional Support</h2>
+          <p className="mt-4 text-slate-400 text-base sm:text-lg max-w-2xl mx-auto font-light">
             Secure and confidential access to our specialized mental health network.
           </p>
         </div>
 
         {/* Urgent Care Banner */}
-        <div className="max-w-5xl mx-auto mb-16 bg-red-900/20 border border-red-500/30 p-6 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-4 backdrop-blur-md">
+        <div className="max-w-5xl mx-auto mb-16 bg-red-900/20 border border-red-500/30 p-5 sm:p-6 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-4 backdrop-blur-md">
             <div className="text-center md:text-left">
-                <p className="font-black text-red-400 uppercase tracking-widest text-sm">Crisis Intervention</p>
-                <p className="text-slate-300 text-sm mt-1">If you are in immediate distress, our priority team is standing by.</p>
+                <p className="font-black text-red-400 uppercase tracking-widest text-xs sm:text-sm">Crisis Intervention</p>
+                <p className="text-slate-300 text-xs sm:text-sm mt-1">If you are in immediate distress, our priority team is standing by.</p>
             </div>
-            <button className="bg-red-600 text-white font-black py-3 px-8 rounded-xl hover:bg-red-500 transition-all shadow-lg hover:shadow-red-900/40 whitespace-nowrap">
+            <button className="bg-red-600 text-white font-black py-2.5 px-6 sm:py-3 sm:px-8 rounded-xl hover:bg-red-500 transition-all shadow-lg hover:shadow-red-900/40 whitespace-nowrap text-xs sm:text-sm">
                 Emergency Priority
             </button>
         </div>
@@ -120,7 +120,7 @@ const BookingPage = () => {
                 <p className="text-emerald-500 font-bold animate-pulse font-mono tracking-tighter">SYNCING CLINICAL DATABASE...</p>
             </div>
         ) : (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10 max-w-7xl mx-auto mb-20">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10 max-w-7xl mx-auto mb-20">
               {experts.map(expert => (
                 <CounselorCard key={expert._id || expert.id} counselor={expert} />
               ))}

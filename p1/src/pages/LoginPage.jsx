@@ -45,7 +45,7 @@ const LoginPage = () => {
       <div className="absolute bottom-[-10%] right-[-10%] w-[400px] h-[400px] bg-emerald-500/5 blur-[100px] rounded-full"></div>
 
       {/* Glassmorphism Card */}
-      <div className="relative w-full max-w-md rounded-[3rem] bg-slate-900/40 backdrop-blur-3xl border border-white/5 shadow-2xl p-12 animate-in fade-in zoom-in duration-700">
+      <div className="relative w-full max-w-md rounded-2xl sm:rounded-[3rem] bg-slate-900/40 backdrop-blur-3xl border border-white/5 shadow-2xl p-6 sm:p-12 max-h-[95vh] overflow-y-auto animate-in fade-in zoom-in duration-700">
         
         {/* Close/Home Button */}
         <Link to="/" className="absolute top-8 right-8 text-slate-500 hover:text-white transition-colors group">

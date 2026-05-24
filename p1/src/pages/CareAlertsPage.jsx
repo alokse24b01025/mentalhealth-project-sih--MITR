@@ -37,7 +37,7 @@ const CareAlertsPage = () => {
   }, [currentUser]);
 
   return (
-    <div className="min-h-screen bg-[#020617] text-slate-300 pt-32 pb-24 px-6 overflow-x-hidden relative">
+    <div className="min-h-screen bg-[#020617] text-slate-300 pt-24 sm:pt-32 pb-16 sm:pb-24 px-4 sm:px-6 overflow-x-hidden relative">
       <Header />
       
       {/* Sanctuary Background Glows */}
@@ -46,8 +46,8 @@ const CareAlertsPage = () => {
 
       <div className="max-w-4xl mx-auto relative z-10">
         {/* Header Section */}
-        <header className="mb-16 animate-in fade-in slide-in-from-top-4 duration-1000">
-          <h1 className="text-5xl md:text-6xl font-light text-white tracking-tighter mb-4">
+        <header className="mb-10 sm:mb-16 animate-in fade-in slide-in-from-top-4 duration-1000">
+          <h1 className="text-3xl sm:text-5xl md:text-6xl font-light text-white tracking-tighter mb-4">
             Care <span className="font-serif italic text-emerald-500">Center</span>
           </h1>
           <p className="text-[10px] font-black uppercase tracking-[0.5em] text-slate-500">
@@ -56,7 +56,7 @@ const CareAlertsPage = () => {
         </header>
 
         {/* 1. QUICK ACTIONS: Glassmorphic Pills */}
-        <section className="mb-16">
+        <section className="mb-10 sm:mb-16">
           <h3 className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-6 ml-1">Recommended Pathways</h3>
           <div className="flex overflow-x-auto gap-4 pb-4 no-scrollbar">
             {suggestions.map((item) => (
@@ -85,15 +85,15 @@ const CareAlertsPage = () => {
             alerts.map((alert, idx) => (
               <div 
                 key={idx} 
-                className={`p-10 rounded-[3rem] border backdrop-blur-2xl transition-all duration-700 hover:scale-[1.01] shadow-2xl animate-in slide-up fade-in ${
+                className={`p-5 sm:p-10 rounded-2xl sm:rounded-[3rem] border backdrop-blur-2xl transition-all duration-700 hover:scale-[1.01] shadow-2xl animate-in slide-up fade-in ${
                   alert.priority === 'High' || alert.priority === 'Critical' 
                     ? 'border-red-500/20 bg-gradient-to-br from-red-500/5 to-transparent' 
                     : 'border-white/5 bg-slate-900/20'
                 }`}
                 style={{ animationDelay: `${idx * 150}ms` }}
               >
-                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-10">
-                  <div className="flex-1">
+                <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 lg:gap-10">
+                  <div className="flex-1 w-full">
                     <div className="flex items-center gap-3 mb-6">
                       <span className={`text-[9px] font-black uppercase tracking-[0.2em] px-4 py-1.5 rounded-full border ${
                         alert.priority === 'Critical' 
@@ -105,7 +105,7 @@ const CareAlertsPage = () => {
                       <span className="h-px w-8 bg-white/10"></span>
                       <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest">{alert.priority} Priority</span>
                     </div>
-                    <p className="text-white text-2xl font-light tracking-tight leading-relaxed">
+                    <p className="text-white text-lg sm:text-2xl font-light tracking-tight leading-relaxed">
                       {alert.message.split(' ').map((word, i) => 
                         i % 5 === 0 ? <span key={i} className="font-serif italic text-slate-100">{word} </span> : word + ' '
                       )}
@@ -114,7 +114,7 @@ const CareAlertsPage = () => {
                   
                   <a 
                     href={alert.link} 
-                    className="w-full md:w-auto text-center bg-white text-slate-950 text-[11px] font-black px-12 py-5 rounded-2xl hover:bg-emerald-400 hover:shadow-[0_0_30px_-5px_rgba(52,211,153,0.3)] transition-all uppercase tracking-widest active:scale-95"
+                    className="w-full lg:w-auto text-center bg-white text-slate-950 text-[11px] font-black px-6 py-3.5 sm:px-12 sm:py-5 rounded-2xl hover:bg-emerald-400 hover:shadow-[0_0_30px_-5px_rgba(52,211,153,0.3)] transition-all uppercase tracking-widest active:scale-95 flex items-center justify-center"
                   >
                     {alert.action}
                   </a>

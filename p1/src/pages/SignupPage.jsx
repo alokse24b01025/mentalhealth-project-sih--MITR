@@ -73,7 +73,7 @@ const SignupPage = () => {
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-green-50 via-teal-50 to-emerald-100 p-4">
 
-      <div className="relative w-full max-w-md rounded-2xl bg-white/40 backdrop-blur-xl border border-white/20 shadow-2xl p-8">
+      <div className="relative w-full max-w-md rounded-2xl bg-white/40 backdrop-blur-xl border border-white/20 shadow-2xl p-5 sm:p-8 max-h-[95vh] overflow-y-auto">
 
         {/* CLOSE BUTTON */}
         <Link

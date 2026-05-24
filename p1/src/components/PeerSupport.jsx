@@ -34,19 +34,19 @@ const PostItem = ({ post, onUpdate }) => {
   return (
     <div className="bg-slate-900 border border-slate-800 rounded-2xl mb-6 overflow-hidden flex shadow-xl transition-all hover:border-slate-700 animate-in fade-in slide-in-from-bottom-4 duration-500">
       {/* Side Vote Bar */}
-      <div className="bg-slate-950/40 w-12 flex flex-col items-center py-4 border-r border-slate-800 text-slate-500">
-        <button onClick={handleUpvote} className="hover:text-emerald-500 transition-all text-xl">▲</button>
-        <span className="text-emerald-500 font-mono font-bold my-1 text-sm">{post.likes || 0}</span>
-        <button className="hover:text-red-500 transition-all text-xl">▼</button>
+      <div className="bg-slate-950/40 w-10 sm:w-12 flex-shrink-0 flex flex-col items-center py-4 border-r border-slate-800 text-slate-500">
+        <button onClick={handleUpvote} className="hover:text-emerald-500 transition-all text-lg sm:text-xl">▲</button>
+        <span className="text-emerald-500 font-mono font-bold my-0.5 sm:my-1 text-xs sm:text-sm">{post.likes || 0}</span>
+        <button className="hover:text-red-500 transition-all text-lg sm:text-xl">▼</button>
       </div>
 
-      <div className="flex-1 p-6">
+      <div className="flex-1 p-4 sm:p-6">
         <div className="flex justify-between items-center mb-3">
           <span className="text-emerald-400 text-xs font-bold italic uppercase tracking-widest">Anonymous Peer</span>
           <span className="text-slate-500 text-[10px]">{new Date(post.date).toLocaleDateString()}</span>
         </div>
         
-        <p className="text-slate-200 text-lg mb-4 leading-relaxed whitespace-pre-wrap">{post.content}</p>
+        <p className="text-slate-200 text-sm sm:text-lg mb-4 leading-relaxed whitespace-pre-wrap">{post.content}</p>
         
         {/* MEDIA RENDERER: Connects to server's static uploads folder */}
         {post.image && (
@@ -182,14 +182,14 @@ const PeerSupport = () => {
   return (
     <div className="min-h-screen flex flex-col bg-[#020617] text-slate-200">
       <Header />
-      <main className="max-w-3xl mx-auto pt-40 p-6 flex-1 w-full">
+      <main className="max-w-3xl mx-auto pt-24 sm:pt-40 p-4 sm:p-6 flex-1 w-full">
         <div className="text-center mb-10">
-          <h2 className="text-5xl font-black text-white tracking-tight">Community Feed</h2>
-          <p className="mt-4 text-slate-400 font-medium">Safe, anonymous multimedia support from your peers.</p>
+          <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">Community Feed</h2>
+          <p className="mt-4 text-sm sm:text-base text-slate-400 font-medium">Safe, anonymous multimedia support from your peers.</p>
         </div>
 
         {/* Input Form */}
-        <form onSubmit={handlePost} className="bg-slate-900 border border-emerald-900/30 p-6 rounded-2xl mb-8 shadow-2xl transition-all hover:shadow-emerald-900/5">
+        <form onSubmit={handlePost} className="bg-slate-900 border border-emerald-900/30 p-4 sm:p-6 rounded-2xl mb-8 shadow-2xl transition-all hover:shadow-emerald-900/5">
           <textarea
             value={newPost}
             onChange={(e) => setNewPost(e.target.value)}
@@ -222,11 +222,11 @@ const PeerSupport = () => {
             </div>
           )}
 
-          <div className="flex items-center justify-between gap-4">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
             <button 
               type="button" 
               onClick={() => fileInputRef.current.click()}
-              className="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 px-5 py-2.5 rounded-xl text-sm font-semibold border border-slate-600 transition-all text-slate-300 active:scale-95"
+              className="flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-700 px-5 py-2.5 rounded-xl text-sm font-semibold border border-slate-600 transition-all text-slate-300 active:scale-95 w-full sm:w-auto"
             >
               <span>{file ? "Change Selection" : "📁 Photo/Video / 📷 Camera"}</span>
             </button>
@@ -242,7 +242,7 @@ const PeerSupport = () => {
             <button 
               type="submit" 
               disabled={isPosting} 
-              className="bg-emerald-600 px-8 py-3 rounded-xl font-bold hover:bg-emerald-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed text-white shadow-lg shadow-emerald-900/20 active:scale-95"
+              className="bg-emerald-600 px-8 py-3 rounded-xl font-bold hover:bg-emerald-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed text-white shadow-lg shadow-emerald-900/20 active:scale-95 w-full sm:w-auto text-center"
             >
               {isPosting ? 'Uploading...' : 'Post to Community'}
             </button>

@@ -73,25 +73,25 @@ const AdminDashboard = () => {
       <Header />
       
       {/* Admin Floating Control Bar */}
-      <div className="fixed top-24 right-8 z-[60] flex flex-col gap-3 items-end">
+      <div className="fixed top-24 right-4 md:right-8 z-[60] flex flex-col sm:flex-row md:flex-col gap-2 sm:gap-3 items-end">
         <button 
           onClick={() => navigate('/admin-upload')}
-          className="px-6 py-2 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[10px] font-black uppercase tracking-widest rounded-full hover:bg-emerald-500 hover:text-white transition-all shadow-2xl"
+          className="px-4 py-2 sm:px-6 sm:py-2 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[9px] sm:text-[10px] font-black uppercase tracking-widest rounded-full hover:bg-emerald-500 hover:text-white transition-all shadow-2xl"
         >
           Open Resource Deployer
         </button>
         <button 
           onClick={handleAdminLogout}
-          className="px-6 py-2 bg-red-500/10 border border-red-500/20 text-red-400 text-[10px] font-black uppercase tracking-widest rounded-full hover:bg-red-500 hover:text-white transition-all shadow-2xl"
+          className="px-4 py-2 sm:px-6 sm:py-2 bg-red-500/10 border border-red-500/20 text-red-400 text-[9px] sm:text-[10px] font-black uppercase tracking-widest rounded-full hover:bg-red-500 hover:text-white transition-all shadow-2xl"
         >
           Terminate Admin Session
         </button>
       </div>
 
-      <main className="flex-1 overflow-y-auto p-8 pt-40">
-        <div className="text-center mb-16">
+      <main className="flex-1 overflow-y-auto p-4 sm:p-8 pt-44 sm:pt-40">
+        <div className="text-center mb-12">
           <span className="text-[10px] font-black text-red-500 uppercase tracking-[0.5em] mb-4 block animate-pulse">Classified Access Only</span>
-          <h2 className="text-5xl font-light text-white tracking-tight">
+          <h2 className="text-3xl sm:text-5xl font-light text-white tracking-tight">
             Admin Command <span className="font-serif italic text-red-500">Center</span>
           </h2>
         </div>
@@ -106,9 +106,9 @@ const AdminDashboard = () => {
         )}
 
         {/* --- MODERATION QUEUE SECTION --- */}
-        <div className="max-w-7xl mx-auto bg-slate-900/40 border border-yellow-500/10 p-12 rounded-[3rem] shadow-2xl mb-12 backdrop-blur-3xl">
+        <div className="max-w-7xl mx-auto bg-slate-900/40 border border-yellow-500/10 p-6 sm:p-12 rounded-2xl sm:rounded-[3rem] shadow-2xl mb-12 backdrop-blur-3xl">
           <div className="flex justify-between items-center mb-10">
-            <h3 className="text-2xl font-light text-white">
+            <h3 className="text-xl sm:text-2xl font-light text-white">
               Resiliency <span className="font-serif italic text-yellow-500">Moderation</span> Queue
             </h3>
             <button 
@@ -127,24 +127,24 @@ const AdminDashboard = () => {
           ) : (
             <div className="grid gap-6">
               {pendingStories.map(story => (
-                <div key={story._id} className="p-8 bg-slate-950/50 border border-white/5 rounded-3xl flex flex-col md:flex-row justify-between items-start md:items-center gap-6 group hover:border-yellow-500/20 transition-all">
+                <div key={story._id} className="p-5 sm:p-8 bg-slate-950/50 border border-white/5 rounded-2xl sm:rounded-3xl flex flex-col md:flex-row justify-between items-start md:items-center gap-6 group hover:border-yellow-500/20 transition-all">
                   <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-2">
-                      <span className="text-white font-bold tracking-tight">{story.name || "Anonymous Member"}</span>
-                      <span className="text-[10px] font-black text-slate-600 uppercase tracking-widest">from {story.location || "Private"}</span>
+                    <div className="flex items-center gap-3 mb-2 flex-wrap">
+                      <span className="text-white font-bold tracking-tight text-sm sm:text-base">{story.name || "Anonymous Member"}</span>
+                      <span className="text-[9px] sm:text-[10px] font-black text-slate-600 uppercase tracking-widest">from {story.location || "Private"}</span>
                     </div>
-                    <p className="text-slate-400 italic text-sm font-serif">"{story.bio || "Finding peace here."}"</p>
+                    <p className="text-slate-400 italic text-xs sm:text-sm font-serif">"{story.bio || "Finding peace here."}"</p>
                   </div>
-                  <div className="flex gap-4">
+                  <div className="flex gap-3 w-full md:w-auto">
                     <button 
                       onClick={() => handleModeration(story._id, 'approved')}
-                      className="px-8 py-3 bg-emerald-500 text-slate-950 text-[10px] font-black uppercase tracking-widest rounded-full hover:bg-emerald-400 transition-all shadow-xl"
+                      className="flex-1 md:flex-none px-6 py-2.5 bg-emerald-500 text-slate-950 text-[10px] font-black uppercase tracking-widest rounded-full hover:bg-emerald-400 transition-all shadow-xl text-center"
                     >
                       Approve
                     </button>
                     <button 
                       onClick={() => handleModeration(story._id, 'rejected')}
-                      className="px-8 py-3 bg-red-500/10 border border-red-500/20 text-red-500 text-[10px] font-black uppercase tracking-widest rounded-full hover:bg-red-500 hover:text-white transition-all shadow-xl"
+                      className="flex-1 md:flex-none px-6 py-2.5 bg-red-500/10 border border-red-500/20 text-red-500 text-[10px] font-black uppercase tracking-widest rounded-full hover:bg-red-500 hover:text-white transition-all shadow-xl text-center"
                     >
                       Reject
                     </button>

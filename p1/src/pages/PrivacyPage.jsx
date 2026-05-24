@@ -13,10 +13,10 @@ const PrivacyPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#020617] text-slate-200 pt-32 p-8">
+    <div className="min-h-screen bg-[#020617] text-slate-200 pt-24 sm:pt-32 p-4 sm:p-8">
       <Header />
-      <div className="max-w-2xl mx-auto bg-slate-900 border border-slate-800 rounded-3xl p-8 shadow-2xl">
-        <h1 className="text-3xl font-black text-white mb-6 flex items-center gap-3">
+      <div className="max-w-2xl mx-auto bg-slate-900 border border-slate-800 rounded-2xl sm:rounded-3xl p-5 sm:p-8 shadow-2xl">
+        <h1 className="text-2xl sm:text-3xl font-black text-white mb-6 flex items-center gap-3">
           <span className="text-blue-500">🛡️</span> Privacy & Anonymity
         </h1>
         

@@ -119,7 +119,7 @@ const HomePage = () => {
       {showLoginModal && (
         <div className="fixed inset-0 z-[200] flex items-center justify-center p-6">
           <div className="absolute inset-0 bg-slate-950/80 backdrop-blur-xl animate-in fade-in duration-700" onClick={() => setShowLoginModal(false)}></div>
-          <div className="relative bg-slate-900/90 border border-white/10 p-12 rounded-[3rem] shadow-2xl max-w-sm w-full text-center animate-in zoom-in-95 duration-300">
+          <div className="relative bg-slate-900/90 border border-white/10 p-6 sm:p-12 rounded-2xl sm:rounded-[3rem] shadow-2xl max-w-sm w-full max-h-[90vh] overflow-y-auto text-center animate-in zoom-in-95 duration-300">
             <div className="text-4xl mb-6">🌿</div>
             <h3 className="text-2xl font-light text-white tracking-tight mb-4">Access the <span className="font-serif italic text-emerald-500">Sanctuary</span></h3>
             <p className="text-slate-400 text-sm leading-relaxed mb-10">This feature is reserved for our registered members to protect community privacy.</p>
@@ -132,7 +132,7 @@ const HomePage = () => {
       {showShareModal && (
         <div className="fixed inset-0 z-[200] flex items-center justify-center p-6">
           <div className="absolute inset-0 bg-slate-950/80 backdrop-blur-xl animate-in fade-in duration-700" onClick={() => setShowShareModal(false)}></div>
-          <div className="relative bg-slate-900 border border-emerald-500/20 p-10 rounded-[3rem] shadow-2xl max-w-lg w-full text-center animate-in zoom-in-95 duration-300">
+          <div className="relative bg-slate-900 border border-emerald-500/20 p-6 sm:p-10 rounded-2xl sm:rounded-[3rem] shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto text-center animate-in zoom-in-95 duration-300">
             <h3 className="text-2xl font-light text-white mb-4 tracking-tight">Share Your <span className="font-serif italic text-emerald-500">Light</span></h3>
             <p className="text-slate-400 text-sm mb-8 leading-relaxed italic uppercase text-[10px] tracking-widest">Your story will be reviewed by admins before going live.</p>
             
@@ -149,9 +149,9 @@ const HomePage = () => {
               onChange={(e) => setUserLocation(e.target.value)}
             />
 
-            <div className="flex gap-4">
-              <button onClick={submitResiliency} className="flex-1 py-4 bg-white text-slate-950 font-black rounded-2xl text-[10px] uppercase tracking-widest hover:bg-emerald-400 transition-all">Submit for Review</button>
-              <button onClick={() => setShowShareModal(false)} className="flex-1 py-4 bg-slate-800 text-slate-400 font-black rounded-2xl text-[10px] uppercase tracking-widest">Cancel</button>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <button onClick={submitResiliency} className="w-full sm:flex-1 py-4 bg-white text-slate-950 font-black rounded-2xl text-[10px] uppercase tracking-widest hover:bg-emerald-400 transition-all">Submit for Review</button>
+              <button onClick={() => setShowShareModal(false)} className="w-full sm:flex-1 py-4 bg-slate-800 text-slate-400 font-black rounded-2xl text-[10px] uppercase tracking-widest">Cancel</button>
             </div>
           </div>
         </div>
@@ -163,18 +163,18 @@ const HomePage = () => {
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-emerald-500/10 blur-[120px] rounded-full"></div>
           <div className="relative z-10 max-w-5xl text-center">
             <span className="text-[10px] font-black tracking-[0.5em] text-emerald-500 uppercase mb-8 block animate-pulse">Neural Encryption Active</span>
-            <h2 className="text-6xl md:text-8xl font-light text-white tracking-tighter leading-[1.1]">
+            <h2 className="text-4xl sm:text-6xl md:text-8xl font-light text-white tracking-tighter leading-[1.1]">
               Gentle Support for <br /> <span className="font-serif italic text-emerald-500/90">Modern Minds</span>
             </h2>
-            <div className="mt-16 flex gap-6 justify-center">
-              <button onClick={(e) => handleFeatureAccess(e, "/chat")} className="px-12 py-5 bg-white text-slate-950 font-black text-[11px] uppercase tracking-widest rounded-full hover:bg-emerald-400 transition-all shadow-2xl">Begin Neural Sync</button>
-              <button onClick={(e) => handleFeatureAccess(e, "/resources")} className="px-12 py-5 bg-slate-900/50 text-white font-black text-[11px] uppercase tracking-widest rounded-full border border-white/10 hover:bg-slate-800 transition-all">Wisdom Hub</button>
+            <div className="mt-16 flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center px-4">
+              <button onClick={(e) => handleFeatureAccess(e, "/chat")} className="w-full sm:w-auto px-12 py-5 bg-white text-slate-950 font-black text-[11px] uppercase tracking-widest rounded-full hover:bg-emerald-400 transition-all shadow-2xl">Begin Neural Sync</button>
+              <button onClick={(e) => handleFeatureAccess(e, "/resources")} className="w-full sm:w-auto px-12 py-5 bg-slate-900/50 text-white font-black text-[11px] uppercase tracking-widest rounded-full border border-white/10 hover:bg-slate-800 transition-all">Wisdom Hub</button>
             </div>
           </div>
         </section>
 
         {/* FEATURES */}
-        <section ref={fRef} className={`py-32 transition-all duration-1000 ${fVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+        <section ref={fRef} className={`py-16 sm:py-24 md:py-32 transition-all duration-1000 ${fVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <div className="w-full overflow-hidden relative py-10">
             <div className="flex animate-scroll-slow">
               {[...coreFeatures, ...coreFeatures].map((f, i) => (
@@ -189,9 +189,9 @@ const HomePage = () => {
         </section>
 
         {/* SHARED RESILIENCY */}
-        <section ref={pRef} className={`py-40 px-6 transition-all duration-1000 ${pVisible ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'}`}>
+        <section ref={pRef} className={`py-16 sm:py-24 md:py-40 px-6 transition-all duration-1000 ${pVisible ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'}`}>
           <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-24">
+            <div className="text-center mb-12 sm:mb-24">
               <h2 className="text-4xl font-light text-white tracking-tight">Shared <span className="font-serif italic text-emerald-500">Resiliency</span></h2>
               <p className="mt-6 text-slate-500 text-[10px] font-black uppercase tracking-[0.4em]">Verified stories of strength</p>
             </div>

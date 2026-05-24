@@ -19,9 +19,9 @@ const ChatPage = () => {
     <div className="h-screen flex flex-col bg-[#020617] text-slate-200 selection:bg-emerald-500/30">
       <Header />
       
-      <main className="flex-1 w-full flex flex-col items-center p-4 pt-32 overflow-hidden">
+      <main className="flex-1 w-full flex flex-col items-center p-4 pt-20 sm:pt-24 md:pt-32 overflow-hidden">
         
-        <div className="w-full max-w-5xl flex-1 flex flex-col min-h-0 bg-slate-900/50 border border-slate-800 rounded-3xl shadow-2xl overflow-hidden relative">
+        <div className="w-full max-w-5xl flex-1 flex flex-col min-h-0 bg-slate-900/50 border border-slate-800 rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden relative">
           
           {/* Header Bar within Chat */}
           <div className="bg-slate-950/80 border-b border-slate-800 p-4 flex flex-wrap items-center justify-between gap-4">

@@ -33,7 +33,26 @@ app.use('/api/resiliency', resiliencyRoutes);
 
 // 5. CONNECT TO MONGODB
 mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log(" MongoDB Connected Successfully"))
+  .then(() => {
+    console.log(" MongoDB Connected Successfully");
+    
+    // Dynamic database-level index check to drop any auto-expiry (TTL) rules on Safe Haven posts
+    const dbConnection = mongoose.connection;
+    dbConnection.db.collection('posts').indexes()
+      .then(async (indexes) => {
+        console.log("Analyzing database indexes for 'posts' collection...");
+        for (const index of indexes) {
+          if (index.expireAfterSeconds !== undefined) {
+            console.log(`[Self-Healing Alert] Found active TTL (auto-expiry) index "${index.name}" on posts collection. Dropping index...`);
+            await dbConnection.db.collection('posts').dropIndex(index.name);
+            console.log(`[Self-Healing Success] Dropped TTL index "${index.name}". Posts are now permanently visible!`);
+          }
+        }
+      })
+      .catch(err => {
+        console.warn("Post collection index inspection warning (collection may be empty):", err.message);
+      });
+  })
   .catch(err => console.log(" MongoDB Connection Error:", err));
 
 // 6. FOLDER & SERVER START

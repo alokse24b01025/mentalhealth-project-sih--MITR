@@ -90,18 +90,18 @@ const ResourcesPage = () => {
   return (
     <div className="h-screen flex flex-col bg-[#020617] text-slate-300 selection:bg-emerald-500/30">
       <Header />
-      <main className="flex-1 overflow-y-auto p-8 pt-40">
+      <main className="flex-1 overflow-y-auto p-4 sm:p-8 pt-24 sm:pt-40">
         <div className="text-center mb-12">
-          <h2 className="text-5xl font-black text-white tracking-tighter mb-4">
+          <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tighter mb-4">
             Resource Hub
           </h2>
-          <p className="max-w-2xl mx-auto text-lg text-slate-400">
+          <p className="max-w-2xl mx-auto text-base sm:text-lg text-slate-400">
             A curated library of psychoeducational content to support your mental health journey.
           </p>
         </div>
 
         {/* Search Bar - Dark Themed */}
-        <div className="max-w-xl mx-auto mb-16">
+        <div className="max-w-xl mx-auto mb-16 px-4">
           <div className="relative group">
             <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
               <svg className="h-5 w-5 text-slate-500 group-focus-within:text-emerald-500 transition-colors" xmlns="https://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -112,7 +112,7 @@ const ResourcesPage = () => {
               type="text" 
               value={searchTerm} 
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full bg-slate-900/50 border border-slate-800 rounded-2xl py-4 pl-12 pr-4 text-white placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all"
+              className="w-full bg-slate-900/50 border border-slate-800 rounded-2xl py-4 pl-12 pr-4 text-white placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all text-sm"
               placeholder="Search guides or videos..." 
             />
           </div>
@@ -124,7 +124,7 @@ const ResourcesPage = () => {
             <p className="text-slate-500 font-medium animate-pulse">Loading wellness library...</p>
           </div>
         ) : filteredResources.length > 0 ? (
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto mb-10">
             {filteredResources.map(resource => (
               <ResourceCard key={resource._id || resource.id} resource={resource} />
             ))}

@@ -30,14 +30,14 @@ const PostCard = ({ post, onUpdate }) => {
   return (
     <div className="bg-slate-900 border border-slate-800 rounded-2xl mb-6 overflow-hidden flex shadow-xl">
       {/* Reddit-style Side Vote Bar */}
-      <div className="bg-slate-950/40 w-12 flex flex-col items-center py-4 border-r border-slate-800">
-        <button onClick={handleUpvote} className="text-slate-500 hover:text-emerald-500 transition-all text-xl">▲</button>
-        <span className="text-emerald-500 font-mono font-bold my-1 text-sm">{post.likes || 0}</span>
-        <button className="text-slate-500 hover:text-red-500 transition-all text-xl">▼</button>
+      <div className="bg-slate-950/40 w-10 sm:w-12 flex-shrink-0 flex flex-col items-center py-4 border-r border-slate-800 text-slate-500">
+        <button onClick={handleUpvote} className="hover:text-emerald-500 transition-all text-lg sm:text-xl">▲</button>
+        <span className="text-emerald-500 font-mono font-bold my-0.5 sm:my-1 text-xs sm:text-sm">{post.likes || 0}</span>
+        <button className="hover:text-red-500 transition-all text-lg sm:text-xl">▼</button>
       </div>
 
-      <div className="flex-1 p-6">
-        <p className="text-slate-200 text-lg mb-4">{post.content}</p>
+      <div className="flex-1 p-4 sm:p-6">
+        <p className="text-slate-200 text-sm sm:text-lg mb-4">{post.content}</p>
         
         {/* RENDER IMAGE IF IT EXISTS */}
         {post.image && (
@@ -131,10 +131,10 @@ const handleAddPost = async (e) => {
   return (
     <div className="min-h-screen bg-[#020617] text-slate-200">
       <Header />
-      <main className="max-w-3xl mx-auto pt-40 p-6">
-        <h2 className="text-4xl font-black mb-8 text-white tracking-tight text-center">Community Feed</h2>
+      <main className="max-w-3xl mx-auto pt-24 sm:pt-40 p-4 sm:p-6">
+        <h2 className="text-3xl sm:text-4xl font-black mb-8 text-white tracking-tight text-center">Community Feed</h2>
         
-        <form onSubmit={handleAddPost} className="bg-slate-900 border border-emerald-900/30 p-6 rounded-2xl mb-12 shadow-2xl">
+        <form onSubmit={handleAddPost} className="bg-slate-900 border border-emerald-900/30 p-4 sm:p-6 rounded-2xl mb-12 shadow-2xl">
           <textarea
             value={newPost}
             onChange={(e) => setNewPost(e.target.value)}
@@ -150,7 +150,7 @@ const handleAddPost = async (e) => {
             className="w-full p-3 bg-slate-800 rounded-xl text-white border border-slate-700 outline-none mb-4 text-sm focus:ring-2 focus:ring-emerald-500 transition-all"
             placeholder="Image URL (Optional - e.g. Imgur/Unsplash link)"
           />
-          <button type="submit" className="w-full bg-emerald-600 px-8 py-4 rounded-xl font-bold hover:bg-emerald-500 transition-all shadow-lg hover:shadow-emerald-900/20 text-white">
+          <button type="submit" className="w-full bg-emerald-600 px-8 py-3.5 rounded-xl font-bold hover:bg-emerald-500 transition-all shadow-lg hover:shadow-emerald-900/20 text-white text-sm">
             Post to Community
           </button>
         </form>

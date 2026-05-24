@@ -83,18 +83,18 @@ const Chatbot = ({ selectedLanguage }) => {
       
       {/* Crisis Alert Overlay */}
       {showCrisisAlert && (
-        <div className="absolute inset-0 bg-red-950/95 flex flex-col justify-center items-center z-50 rounded-2xl text-white text-center p-8">
-          <div className="w-20 h-20 bg-red-600 rounded-full flex items-center justify-center mb-6 animate-pulse">
-            <svg xmlns="https://www.w3.org/2000/svg" className="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div className="absolute inset-0 bg-red-950/95 flex flex-col justify-center items-center z-50 rounded-2xl text-white text-center p-4 sm:p-8 overflow-y-auto">
+          <div className="w-14 h-14 sm:w-20 sm:h-20 bg-red-600 rounded-full flex items-center justify-center mb-4 sm:mb-6 flex-shrink-0 animate-pulse">
+            <svg xmlns="https://www.w3.org/2000/svg" className="h-6 w-6 sm:h-10 sm:w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
             </svg>
           </div>
-          <h2 className="text-3xl font-black tracking-tighter uppercase">You Are Not Alone</h2>
-          <p className="mt-4 text-slate-200 max-w-sm">Our system detected distress. Please connect with a professional immediately.</p>
-          <button onClick={() => window.location.href = '/booking'} className="mt-8 bg-white text-red-900 font-black py-4 px-10 rounded-2xl text-lg hover:bg-red-100 transition-all shadow-xl">
+          <h2 className="text-xl sm:text-3xl font-black tracking-tighter uppercase">You Are Not Alone</h2>
+          <p className="mt-2 sm:mt-4 text-xs sm:text-sm text-slate-200 max-w-sm">Our system detected distress. Please connect with a professional immediately.</p>
+          <button onClick={() => window.location.href = '/booking'} className="mt-6 sm:mt-8 bg-white text-red-900 font-black py-3 px-6 sm:py-4 sm:px-10 rounded-2xl text-sm sm:text-lg hover:bg-red-100 transition-all shadow-xl">
             Connect to Counselor Now
           </button>
-          <button onClick={() => setShowCrisisAlert(false)} className="mt-4 text-red-400 text-sm font-bold hover:underline">
+          <button onClick={() => setShowCrisisAlert(false)} className="mt-3 sm:mt-4 text-red-400 text-xs sm:text-sm font-bold hover:underline">
             Dismiss (I'm okay now)
           </button>
         </div>

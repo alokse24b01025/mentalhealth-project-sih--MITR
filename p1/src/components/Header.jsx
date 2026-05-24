@@ -79,7 +79,7 @@ const Header = () => {
                 </svg>
               </button>
 
-              <div className={`absolute top-16 left-0 w-72 bg-slate-900/95 backdrop-blur-3xl border border-white/5 rounded-[2.5rem] shadow-2xl py-8 px-6 transition-all duration-500 transform ${isMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none'}`}>
+              <div className={`absolute top-16 left-0 w-[calc(100vw-2rem)] max-w-[18rem] bg-slate-900/95 backdrop-blur-3xl border border-white/5 rounded-[2.5rem] shadow-2xl py-8 px-6 transition-all duration-500 transform ${isMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none'}`}>
                 <nav className="flex flex-col space-y-2">
                   <p className="text-[9px] font-black text-emerald-500 uppercase tracking-[0.4em] mb-4 px-4">Sanctuary Maps</p>
                   <MenuLink to="/resources" label="Wisdom Hub" icon="📖" />
@@ -100,7 +100,7 @@ const Header = () => {
             </div>
 
             <Link to="/" className="flex items-center group">
-              <span className="text-xl font-light text-white tracking-tighter uppercase transition-colors group-hover:text-emerald-400">
+              <span className="text-base sm:text-xl font-light text-white tracking-tighter uppercase transition-colors group-hover:text-emerald-400">
                 Mitr<span className="font-serif italic text-emerald-500 ml-1">Sanctuary</span>
               </span>
             </Link>
@@ -115,7 +115,7 @@ const Header = () => {
           </nav>
 
           {/* RIGHT: Admin Entrance & Auth */}
-          <div className="flex items-center gap-x-6">
+          <div className="flex items-center gap-x-2 sm:gap-x-6">
             {!currentUser && (
               <Link 
                 to="/admin-gate" 
@@ -127,7 +127,7 @@ const Header = () => {
             )}
 
             {currentUser ? (
-              <div className="flex items-center gap-x-6">
+              <div className="flex items-center gap-x-2 sm:gap-x-6">
                 <div className="hidden md:flex flex-col text-right">
                   <span className="text-[9px] font-black text-slate-600 uppercase tracking-widest leading-none">Member</span>
                   <span className="text-[11px] font-bold text-emerald-400 truncate max-w-[100px] mt-1 uppercase tracking-tight">
@@ -137,13 +137,13 @@ const Header = () => {
                 <button 
                   onClick={handleLogout} 
                   disabled={isLoggingOut} 
-                  className="bg-white/5 border border-white/10 hover:bg-red-500/20 hover:border-red-500/30 text-slate-300 text-[10px] font-black px-6 py-2.5 rounded-full transition-all active:scale-95 uppercase tracking-widest"
+                  className="bg-white/5 border border-white/10 hover:bg-red-500/20 hover:border-red-500/30 text-slate-300 text-[9px] sm:text-[10px] font-black px-4 py-2 sm:px-6 sm:py-2.5 rounded-full transition-all active:scale-95 uppercase tracking-widest"
                 >
                   {isLoggingOut ? 'SYNCING...' : 'DISCONNECT'}
                 </button>
               </div>
             ) : (
-              <Link to="/login" className="bg-white text-slate-950 text-[10px] font-black px-8 py-3 rounded-full hover:bg-emerald-400 transition-all shadow-xl shadow-emerald-500/10 uppercase tracking-widest">
+              <Link to="/login" className="bg-white text-slate-950 text-[9px] sm:text-[10px] font-black px-4 py-2 sm:px-8 sm:py-3 rounded-full hover:bg-emerald-400 transition-all shadow-xl shadow-emerald-500/10 uppercase tracking-widest">
                 Enter
               </Link>
             )}

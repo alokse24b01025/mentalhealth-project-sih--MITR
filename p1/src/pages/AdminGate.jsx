@@ -33,7 +33,7 @@ const AdminGate = () => {
 
   return (
     <div className="min-h-screen bg-[#020617] flex items-center justify-center p-6 selection:bg-red-500/30">
-      <div className="w-full max-w-md bg-slate-900/40 backdrop-blur-3xl border border-white/5 p-12 rounded-[3rem] shadow-2xl relative overflow-hidden animate-in fade-in zoom-in duration-500">
+      <div className="w-full max-w-md bg-slate-900/40 backdrop-blur-3xl border border-white/5 p-6 sm:p-12 rounded-2xl sm:rounded-[3rem] shadow-2xl max-h-[95vh] overflow-y-auto relative animate-in fade-in zoom-in duration-500">
         
         {/* Security Scan Line */}
         <div className="absolute top-0 left-0 w-full h-1 bg-red-500/50 blur-sm animate-pulse"></div>

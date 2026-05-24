@@ -52,12 +52,12 @@ const AdminUpload = () => {
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-emerald-500/5 blur-[120px] rounded-full pointer-events-none"></div>
       <div className="absolute bottom-0 left-[-10%] w-[400px] h-[400px] bg-emerald-500/5 blur-[100px] rounded-full pointer-events-none"></div>
 
-      <div className="max-w-3xl mx-auto pt-40 p-6 relative z-10">
-        <div className="bg-slate-900/40 backdrop-blur-3xl border border-white/5 rounded-[3rem] shadow-2xl p-10 md:p-14 animate-in fade-in zoom-in duration-700">
+      <div className="max-w-3xl mx-auto pt-24 sm:pt-40 p-4 sm:p-6 relative z-10">
+        <div className="bg-slate-900/40 backdrop-blur-3xl border border-white/5 rounded-2xl sm:rounded-[3rem] shadow-2xl p-6 sm:p-10 md:p-14 animate-in fade-in zoom-in duration-700">
           
           <header className="text-center mb-12">
             <span className="text-[10px] font-black text-emerald-500 uppercase tracking-[0.5em] block mb-4">Secure Terminal</span>
-            <h2 className="text-4xl font-light text-white tracking-tighter">
+            <h2 className="text-2xl sm:text-4xl font-light text-white tracking-tighter">
               Resource <span className="font-serif italic text-emerald-500">Deployer</span>
             </h2>
           </header>
@@ -86,7 +86,7 @@ const AdminUpload = () => {
             </div>
 
             {/* Type & URL Row */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
               <div className="space-y-2">
                 <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-2">Neural Format</label>
                 <div className="relative">
