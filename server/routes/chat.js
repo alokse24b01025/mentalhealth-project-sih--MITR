@@ -10,7 +10,7 @@ let model = null;
 try {
   if (process.env.GEMINI_API_KEY) {
     genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-    model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+    model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
   } else {
     console.warn("[Chat Route] WARNING: GEMINI_API_KEY is not defined in the environment. Running in local fallback mode.");
   }
